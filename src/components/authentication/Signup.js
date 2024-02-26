@@ -1,0 +1,199 @@
+import {
+    View,
+    Text,
+    Image,
+    StatusBar,
+    TextInput,
+    TouchableOpacity,
+} from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+    widthPercentageToDP as wp,
+    heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
+import { auth } from "../../../Firebase/firebase";
+import { useNavigation } from "@react-navigation/native";
+
+import BackgroundImage from "../../../assets/BackgroundImage.png";
+import ExitButton from "../english_tutor/components/ExitButton";
+import HomeButton from "../english_tutor/components/HomeButton";
+import {
+    AuthFormFormat,
+    AuthButtonStyle,
+    TextGlowingEffect,
+    AuthTitleStyle,
+} from "../../styles/Styles";
+import HeaderPanel from "../../screens/HeaderPanel";
+import {
+    REACT_APP_THEHAPPYCAVE_AUTH_ENDPOINT_DEV,
+    REACT_APP_THEHAPPYCAVE_AUTH_ENDPOINT_PRODUCTION,
+} from "@env";
+
+// const THEHAPPYCAVE_AUTH_ENDPOINT = REACT_APP_THEHAPPYCAVE_AUTH_ENDPOINT_DEV;
+const THEHAPPYCAVE_AUTH_ENDPOINT =
+    REACT_APP_THEHAPPYCAVE_AUTH_ENDPOINT_PRODUCTION;
+
+export default function SignupScreen() {
+    THEHAPPYCAVE_AUTH_ENDPOINT;
+
+    const navigation = useNavigation();
+
+    const [userName, setUserName] = useState("");
+
+    useEffect(() => {
+        setUserName(auth.currentUser.displayName);
+    }, []);
+
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+
+    const handleSignup = async () => {
+        if (name && email && password && password === confirmPassword) {
+            try {
+                const response = await fetch(THEHAPPYCAVE_AUTH_ENDPOINT, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        name,
+                        email,
+                        password,
+                    }),
+                });
+
+                if (!response.ok) {
+                    throw new Error("Server responded with an error");
+                }
+
+                const data = await response.json();
+                console.log("User created:", data);
+                alert("User created successfully");
+                navigation.navigate("Home");
+            } catch (error) {
+                console.error("Error during signup: ", error.message);
+            }
+        } else {
+            alert("Please check: Name, Email, Password and Confirmed Password");
+        }
+    };
+
+    return (
+        <View style={{ height: "100%", width: "100%" }}>
+            <StatusBar style="light" />
+            <Image
+                source={BackgroundImage}
+                resizeMode="cover"
+                style={{ height: "100%", width: "100%", position: "absolute" }}
+            />
+
+            <Text
+                style={{
+                    fontFamily: "Fuzzy Bubbles Regular",
+                    color: "white",
+                    marginTop: hp(6),
+                    alignSelf: "flex-end",
+                    marginRight: wp(20),
+                }}
+            >
+                Hello <Text style={{ fontWeight: "bold" }}>{userName}</Text>
+            </Text>
+
+            {/* title */}
+            <HeaderPanel />
+
+            <View style={{ alignItems: "center", marginBottom: hp(20) }}>
+                {/* Sign Up Title */}
+                <View style={{ marginBottom: 20 }}>
+                    <Text style={{ ...AuthTitleStyle, ...TextGlowingEffect }}>
+                        Sign up
+                    </Text>
+                </View>
+
+                {/* Name Input */}
+                <View style={{ ...AuthFormFormat }}>
+                    <TextInput
+                        placeholder="Name"
+                        placeholderTextColor={"grey"}
+                        style={{ height: "100%" }}
+                        value={name}
+                        onChangeText={(value) => setName(value)}
+                    />
+                </View>
+
+                {/* Email */}
+                <View style={{ ...AuthFormFormat }}>
+                    <TextInput
+                        placeholder="Email"
+                        placeholderTextColor={"grey"}
+                        style={{ height: "100%" }}
+                        value={email}
+                        onChangeText={(value) => setEmail(value)}
+                    />
+                </View>
+
+                {/* Password Input */}
+                <View style={{ ...AuthFormFormat }}>
+                    <TextInput
+                        placeholder="Password"
+                        placeholderTextColor={"grey"}
+                        secureTextEntry
+                        style={{ height: "100%" }}
+                        value={password}
+                        onChangeText={(value) => setPassword(value)}
+                    />
+                </View>
+
+                {/* Confirm password */}
+                <View style={{ ...AuthFormFormat }}>
+                    <TextInput
+                        placeholder="Confirm password"
+                        placeholderTextColor={"grey"}
+                        secureTextEntry
+                        style={{ height: "100%" }}
+                        value={confirmPassword}
+                        onChangeText={(value) => setConfirmPassword(value)}
+                    />
+                </View>
+
+                {/* Sign Up Button */}
+                <TouchableOpacity
+                    onPress={handleSignup}
+                    style={{
+                        ...AuthButtonStyle,
+                    }}
+                >
+                    <Text
+                        style={{
+                            fontFamily: "Fuzzy Bubbles Bold",
+                            fontSize: 20,
+                            color: "white",
+                            ...TextGlowingEffect,
+                        }}
+                    >
+                        tap to sign up
+                    </Text>
+                </TouchableOpacity>
+            </View>
+
+            <View
+                style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    marginBottom: 20,
+                }}
+            >
+                <View style={{ flex: 1, marginLeft: 40 }}>
+                    <ExitButton text={"Log off"} />
+                </View>
+
+                <View style={{ flex: 1, marginLeft: 80 }}>
+                    <HomeButton />
+                </View>
+            </View>
+        </View>
+    );
+}

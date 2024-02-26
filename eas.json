@@ -1,0 +1,34 @@
+{
+    "cli": {
+        "version": ">= 7.2.0",
+        "appVersionSource": "remote"
+    },
+    "build": {
+        "development": {
+            "developmentClient": true,
+            "distribution": "internal",
+            "ios": {
+                "cocoapods": "1.15.2",
+                "simulator": true
+            }
+        },
+        "preview": {
+            "distribution": "internal"
+        },
+        "production": {
+            "autoIncrement": true,
+            "ios": {
+                "cocoapods": "1.15.2"
+            }
+        }
+    },
+    "submit": {
+        "production": {
+            "ios": {
+                "appleId": "hoang.nguyen0@utas.edu.au",
+                "ascAppId": "6478222264",
+                "appleTeamId": "GGW5B5B38V"
+            }
+        }
+    }
+}
