@@ -18,7 +18,8 @@ export const AuthFormFormat = {
     paddingLeft: 20,
 };
 
-export const AuthButtonStyle = {
+// AuthButton0Style is for sign in, reset password in the welcome screen
+export const AuthButton0Style = {
     borderRadius: 45,
     width: "100%",
     height: 40,
@@ -31,4 +32,33 @@ export const AuthTitleStyle = {
     fontSize: 26,
     color: "white",
     textAlign: "center",
+};
+
+// AuthButton1Style is for exit, signup, update password in the common room
+export const AuthButton1Style = { width: 110, height: 50, borderRadius: 30 };
+
+export const ServiceCardLayoutStyle = {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
+};
+
+export const ServiceTitleStyle = {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "white",
+    fontFamily: "Fuzzy Bubbles Regular",
+};
+
+export const ServiceSubTitleStyle = {
+    fontSize: 14,
+    color: "white",
+    fontFamily: "Fuzzy Bubbles Regular",
+};
+
+export const ServiceImageStyle = {
+    height: hp(12),
+    width: hp(12),
+    margin: 0,
+    borderRadius: 25,
 };

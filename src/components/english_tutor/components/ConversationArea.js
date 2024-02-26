@@ -65,7 +65,7 @@ export default function ConversationArea({ combinedArray, isLoading }) {
                     marginTop: 5,
                     paddingBottom: 30,
                     padding: 5,
-                    height: hp("60%"),
+                    height: hp("56%"),
                     width: wp("90%"),
                     alignSelf: "center",
                     borderWidth: 2,

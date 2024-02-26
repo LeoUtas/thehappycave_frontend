@@ -21,6 +21,7 @@ function AppNavigation() {
 
     if (user && user.email === ADMIN_EMAIL) {
         ADMIN_EMAIL;
+        console.log(ADMIN_EMAIL);
 
         return (
             <NavigationContainer>

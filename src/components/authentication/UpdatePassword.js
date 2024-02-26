@@ -16,7 +16,7 @@ import { auth } from "../../../Firebase/firebase";
 import { useNavigation } from "@react-navigation/native";
 
 import BackgroundImage from "../../../assets/homeImage.png";
-import HomeButton from "../english_tutor/components/HomeButton";
+import HomeButton from "../authentication/HomeButton";
 import {
     AuthFormFormat,
     AuthButtonStyle,

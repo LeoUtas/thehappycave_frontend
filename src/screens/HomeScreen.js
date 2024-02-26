@@ -8,7 +8,7 @@ import {
 import EnglishTutorCard from "../components/english_tutor/EnglishTutorCard";
 import TalkativeAgentCard from "../components/talkative_agent/TalkativeAgentCard";
 import BackgroundImage from "../../assets/homeImage.png";
-import ExitButton from "../components/english_tutor/components/ExitButton";
+import ExitButton from "../components/authentication/ExitButton";
 import { auth } from "../../Firebase/firebase";
 import ToSignupButton from "../components/authentication/ToSignupButton";
 import { TextGlowingEffect } from "../styles/Styles";
@@ -69,7 +69,6 @@ export default function HomeScreen() {
                     fontFamily: "Fuzzy Bubbles Bold",
                     fontSize: 36,
                     paddingTop: hp(10),
-                    paddingBottom: 20,
                     fontWeight: "bold",
                     textAlign: "center",
                     color: "white",
@@ -87,7 +86,7 @@ export default function HomeScreen() {
                     flexDirection: "row",
                     alignItems: "center",
                     justifyContent: "center",
-                    marginTop: hp(36),
+                    marginTop: hp(35),
                     marginLeft: 10,
                     marginRight: 10,
                 }}
@@ -99,7 +98,7 @@ export default function HomeScreen() {
                         alignItems: "center",
                     }}
                 >
-                    <ExitButton text={"Log off"} />
+                    <ExitButton text={"Exit"} />
                 </View>
 
                 {userEmail === ADMIN_EMAIL ? (

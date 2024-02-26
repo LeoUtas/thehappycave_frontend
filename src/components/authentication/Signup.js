@@ -15,8 +15,8 @@ import { auth } from "../../../Firebase/firebase";
 import { useNavigation } from "@react-navigation/native";
 
 import BackgroundImage from "../../../assets/BackgroundImage.png";
-import ExitButton from "../english_tutor/components/ExitButton";
-import HomeButton from "../english_tutor/components/HomeButton";
+import ExitButton from "../authentication/ExitButton";
+import HomeButton from "../authentication/HomeButton";
 import {
     AuthFormFormat,
     AuthButtonStyle,
@@ -161,9 +161,7 @@ export default function SignupScreen() {
                 {/* Sign Up Button */}
                 <TouchableOpacity
                     onPress={handleSignup}
-                    style={{
-                        ...AuthButtonStyle,
-                    }}
+                    style={{ ...AuthButtonStyle }}
                 >
                     <Text
                         style={{
@@ -187,7 +185,7 @@ export default function SignupScreen() {
                 }}
             >
                 <View style={{ flex: 1, marginLeft: 40 }}>
-                    <ExitButton text={"Log off"} />
+                    <ExitButton text={"Exit"} />
                 </View>
 
                 <View style={{ flex: 1, marginLeft: 80 }}>

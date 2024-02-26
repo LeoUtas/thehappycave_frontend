@@ -12,7 +12,7 @@ import handleResetConversation from "./utils/resetConversation";
 import saveAudioToFile from "./utils/saveAudioToFile";
 import playAudiofromAudioPath from "./utils/playAudiofromAudioPath";
 import combineArrays from "./utils/combineArrays";
-import HomeButton from "./HomeButton";
+import HomeButton from "../../authentication/HomeButton";
 import ResetButton from "./ResetButton";
 import ConversationArea from "./ConversationArea";
 import BackgroundImage from "../../../../assets/BackgroundImage.png";

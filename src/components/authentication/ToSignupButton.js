@@ -3,6 +3,7 @@ import LinearGradient from "react-native-linear-gradient";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { FontAwesome } from "@expo/vector-icons";
+import { AuthButton1Style } from "../../styles/Styles";
 
 const buttonGradient = ["#0b3866", "#4b749f"];
 
@@ -15,11 +16,7 @@ export default function ToSignupButton({ text }) {
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}
                 colors={buttonGradient}
-                style={{
-                    width: 120,
-                    height: 45,
-                    borderRadius: 20,
-                }}
+                style={{ ...AuthButton1Style }}
             >
                 <Pressable
                     onPress={() => navigation.navigate("Signup")}
