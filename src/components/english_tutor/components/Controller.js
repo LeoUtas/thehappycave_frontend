@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { View, SafeAreaView, Pressable, StatusBar, Image } from "react-native";
-import Header from "./Header";
+import { View, Pressable, StatusBar, Image } from "react-native";
+import ConversationAreaHeader from "./ConversationAreaHeader";
 import useReactNativeVoice from "./hooks/useReactNativeVoice";
 import { Audio } from "expo-av";
 import * as ExpoFileSystem from "expo-file-system"; // not use for now
@@ -124,29 +124,33 @@ export default function Controller() {
     };
 
     return (
-        <View style={{ height: "100%", width: "100%" }}>
+        <View style={{ flex: 1 }}>
             <StatusBar style="light" />
             <Image
                 source={BackgroundImage}
                 resizeMode="cover"
                 style={{ height: "100%", width: "100%", position: "absolute" }}
             />
-            <SafeAreaView style={{ flex: 1, alignItems: "center" }}>
-                <Header />
+            <View style={{ flex: 1, alignItems: "center" }}>
+                {/* Conversation are header */}
+                <View style={{ marginTop: 50 }}>
+                    <ConversationAreaHeader />
+                </View>
 
+                {/* Conversation area frame */}
                 <ConversationArea
                     combinedArray={combinedArray}
                     isLoading={isLoading}
                 />
 
-                {/* Controller Buttons container */}
+                {/* Controller buttons container */}
                 <View
                     style={{
                         flexDirection: "row",
                         justifyContent: "space-around",
                         alignItems: "center",
                         position: "absolute",
-                        bottom: 50,
+                        bottom: 25,
                         width: "100%",
                         paddingHorizontal: 20,
                     }}
@@ -201,7 +205,7 @@ export default function Controller() {
                     {/* Reset button */}
                     <ResetButton onReset={handleResetButton} />
                 </View>
-            </SafeAreaView>
+            </View>
         </View>
     );
 }

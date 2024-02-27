@@ -84,7 +84,7 @@ function LoadingDotComponent({
         <View
             style={{
                 paddingVertical: 50,
-                width: "30%",
+                width: "20%",
                 alignSelf: "center",
             }}
         >

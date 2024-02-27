@@ -19,7 +19,7 @@ export default function WelcomeScreen() {
 
             <HeaderPanel />
 
-            <View style={{ marginBottom: hp(30) }}>
+            <View style={{ marginBottom: hp(38) }}>
                 <View>
                     <Signin />
                 </View>

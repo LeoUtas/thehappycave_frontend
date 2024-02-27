@@ -8,12 +8,18 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import LinearGradient from "react-native-linear-gradient";
 import { getAuth } from "firebase/auth";
 
-import playAudiofromAudioPath from "./utils/playAudiofromAudioPath";
+import { togglePlayPause } from "./utils/replayAudioManager";
 import { TextGlowingEffect } from "../../../styles/Styles";
 import LoadingDots from "./LoadingDotComponent";
 
 export default function ConversationArea({ combinedArray, isLoading }) {
     const [userName, setUserName] = useState("");
+    const [isReplaying, setIsReplaying] = useState(false);
+    const [onPlayingAudio, setOnPlayingAudio] = useState({
+        audioPath: null,
+        isReplaying: false,
+    });
+
     const scrollViewRef = useRef(); // Reference to the ScrollView
 
     useEffect(() => {
@@ -24,6 +30,22 @@ export default function ConversationArea({ combinedArray, isLoading }) {
     useEffect(() => {
         scrollViewRef.current.scrollToEnd({ animated: true });
     }, [combinedArray]); // Scroll to bottom when combinedArray changes
+
+    const handlePressTogglePlayPauseButton = async (audioPath) => {
+        // Check if the pressed audio is currently playing
+        if (onPlayingAudio.audioPath === audioPath) {
+            // Toggle the play/pause state
+            await togglePlayPause(audioPath); // Ensure this function handles toggling logic
+            setOnPlayingAudio({
+                ...onPlayingAudio,
+                isReplaying: !onPlayingAudio.isReplaying,
+            });
+        } else {
+            // Play the new audio and update the currentAudio state
+            await togglePlayPause(audioPath); // Ensure this starts playing the new audio
+            setOnPlayingAudio({ audioPath: audioPath, isReplaying: true });
+        }
+    };
 
     return (
         <View>
@@ -63,9 +85,9 @@ export default function ConversationArea({ combinedArray, isLoading }) {
             <View
                 style={{
                     marginTop: 5,
-                    paddingBottom: 30,
+                    paddingBottom: 10,
                     padding: 5,
-                    height: hp("56%"),
+                    height: hp("62%"),
                     width: wp("90%"),
                     alignSelf: "center",
                     borderWidth: 2,
@@ -124,7 +146,7 @@ export default function ConversationArea({ combinedArray, isLoading }) {
                                 >
                                     <Pressable
                                         onPress={() =>
-                                            playAudiofromAudioPath(
+                                            handlePressTogglePlayPauseButton(
                                                 item.audioPath
                                             )
                                         }
@@ -135,12 +157,24 @@ export default function ConversationArea({ combinedArray, isLoading }) {
                                             paddingLeft: 5,
                                         }}
                                     >
-                                        <FontAwesome5
-                                            name="play"
-                                            size={14}
-                                            color="#474ed7"
-                                            style={{ marginRight: 10 }}
-                                        />
+                                        {onPlayingAudio.audioPath ===
+                                            item.audioPath &&
+                                        onPlayingAudio.isReplaying ? (
+                                            <FontAwesome5
+                                                name="pause"
+                                                size={14}
+                                                color="#474ed7"
+                                                style={{ marginRight: 10 }}
+                                            />
+                                        ) : (
+                                            <FontAwesome5
+                                                name="play"
+                                                size={14}
+                                                color="#474ed7"
+                                                style={{ marginRight: 10 }}
+                                            />
+                                        )}
+
                                         <Text
                                             style={{
                                                 color: "white",
@@ -156,7 +190,7 @@ export default function ConversationArea({ combinedArray, isLoading }) {
                         }
                     })}
                     {isLoading && (
-                        <LoadingDots dots={5} size={15} bounceHeight={30} />
+                        <LoadingDots dots={4} size={15} bounceHeight={30} />
                     )}
                 </ScrollView>
             </View>

@@ -45,7 +45,6 @@ export default function HomeScreen() {
                     paddingTop: hp(6),
                     textAlign: "right",
                     marginRight: wp(15),
-                    ...TextGlowingEffect,
                 }}
             >
                 Hello{" "}
@@ -57,7 +56,6 @@ export default function HomeScreen() {
                         paddingTop: hp(6),
                         textAlign: "right",
                         marginRight: wp(15),
-                        ...TextGlowingEffect,
                     }}
                 >
                     {userName}
@@ -83,10 +81,11 @@ export default function HomeScreen() {
 
             <View
                 style={{
+                    position: "absolute", // Added for absolute positioning
+                    bottom: 25, // Distance from bottom of the screen
                     flexDirection: "row",
                     alignItems: "center",
                     justifyContent: "center",
-                    marginTop: hp(35),
                     marginLeft: 10,
                     marginRight: 10,
                 }}
