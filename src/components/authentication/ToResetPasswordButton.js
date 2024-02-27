@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 
 import { AuthButtonStyle, TextGlowingEffect } from "../../styles/Styles";
 
-export default function ToResetPasswordButton() {
+export default function ToResetPasswordButton({ text }) {
     const navigation = useNavigation();
 
     return (
@@ -13,23 +13,11 @@ export default function ToResetPasswordButton() {
                 alignItems: "center",
             }}
         >
-            <View style={{ marginTop: 10 }}>
-                <Text
-                    style={{
-                        fontFamily: "Fuzzy Bubbles Bold",
-                        fontSize: 16,
-                        color: "white",
-                        ...TextGlowingEffect,
-                    }}
-                >
-                    or
-                </Text>
-            </View>
             <TouchableOpacity
                 onPress={() => {
                     navigation.navigate("ResetPassword");
                 }}
-                style={{ ...AuthButtonStyle, marginTop: 10 }}
+                style={{ ...AuthButtonStyle }}
             >
                 <Text
                     style={{
@@ -39,7 +27,7 @@ export default function ToResetPasswordButton() {
                         ...TextGlowingEffect,
                     }}
                 >
-                    tap to reset password
+                    {text}
                 </Text>
             </TouchableOpacity>
         </View>

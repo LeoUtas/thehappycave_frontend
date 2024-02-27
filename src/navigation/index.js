@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "../screens/HomeScreen";
 import WelcomeScreen from "../screens/WelcomeScreen";
 import SignupScreen from "../components/authentication/Signup";
+import SigninScreen from "../components/authentication/Signin";
 import ResetPassword from "../components/authentication/ResetPassword";
 import UpdatePassword from "../components/authentication/UpdatePassword";
 import EnglishTutorController from "../components/english_tutor/components/Controller";
@@ -21,7 +22,6 @@ function AppNavigation() {
 
     if (user && user.email === ADMIN_EMAIL) {
         ADMIN_EMAIL;
-        console.log(ADMIN_EMAIL);
 
         return (
             <NavigationContainer>
@@ -93,6 +93,11 @@ function AppNavigation() {
                         screenOptions={{ headerShown: false }}
                         name="Welcome"
                         component={WelcomeScreen}
+                    />
+                    <Stack.Screen
+                        screenOptions={{ headerShown: false }}
+                        name="Signin"
+                        component={SigninScreen}
                     />
                     <Stack.Screen
                         name="ResetPassword"

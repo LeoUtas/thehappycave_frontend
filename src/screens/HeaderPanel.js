@@ -8,9 +8,7 @@ export default function HeaderPanel() {
     return (
         <View
             style={{
-                flex: 1,
                 alignItems: "center",
-                marginTop: hp(15),
             }}
         >
             <Text

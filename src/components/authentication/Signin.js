@@ -1,7 +1,23 @@
-import { View, Text, TouchableOpacity, TextInput } from "react-native";
+import {
+    View,
+    Text,
+    TouchableOpacity,
+    TextInput,
+    StatusBar,
+    Image,
+} from "react-native";
 import React, { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../../Firebase/firebase";
+import {
+    heightPercentageToDP as hp,
+    widthPercentageToDP as wp,
+} from "react-native-responsive-screen";
+import LinearGradient from "react-native-linear-gradient";
+
+import BackgroundImage from "../../../assets/signinImage.png";
+import HeaderPanel from "../../screens/HeaderPanel";
+import ToResetPasswordButton from "./ToResetPasswordButton";
 
 import {
     AuthFormFormat,
@@ -27,9 +43,34 @@ export default function Signin() {
     };
 
     return (
-        <View style={{ alignItems: "center" }}>
+        <View
+            style={{
+                flex: 1,
+                alignItems: "center",
+                backgroundColor: "transparent",
+            }}
+        >
+            <LinearGradient
+                start={{ x: 0, y: 1 }}
+                end={{ x: 1, y: 0 }}
+                colors={["#5612d6", "#61cef2", "#392d69", "#074170"]}
+                style={{
+                    position: "absolute",
+                    left: 0,
+                    right: 0,
+                    top: 0,
+                    bottom: 0,
+                }}
+            ></LinearGradient>
+            <StatusBar style="light" />
+
+            {/* title */}
+            <View style={{ marginTop: hp(15) }}>
+                <HeaderPanel />
+            </View>
+
             {/* Sign In Text */}
-            <View style={{ marginBottom: 30 }}>
+            <View style={{ marginTop: hp(8), marginBottom: 20 }}>
                 <Text style={{ ...AuthTitleStyle, ...TextGlowingEffect }}>
                     Sign in
                 </Text>
@@ -58,10 +99,10 @@ export default function Signin() {
                 />
             </View>
 
-            {/* Sign In Button */}
+            {/* Sign In & Reset Password Buttons */}
             <TouchableOpacity
                 onPress={handleSignin}
-                style={{ ...AuthButtonStyle }}
+                style={{ ...AuthButtonStyle, marginTop: 10 }}
             >
                 <Text
                     style={{
@@ -74,6 +115,25 @@ export default function Signin() {
                     tap to sign in
                 </Text>
             </TouchableOpacity>
+
+            <View
+                style={{
+                    marginVertical: 10,
+                    alignItems: "center",
+                }}
+            >
+                <Text
+                    style={{
+                        fontFamily: "Fuzzy Bubbles Bold",
+                        fontSize: 16,
+                        color: "white",
+                        ...TextGlowingEffect,
+                    }}
+                >
+                    or
+                </Text>
+            </View>
+            <ToResetPasswordButton text={"go to reset password"} />
         </View>
     );
 }

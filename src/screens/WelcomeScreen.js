@@ -3,9 +3,8 @@ import React from "react";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 
 import BackgroundImage from "../../assets/welcomeImage.png";
-import Signin from "../components/authentication/Signin";
 import HeaderPanel from "./HeaderPanel";
-import ToResetPasswordButton from "../components/authentication/ToResetPasswordButton";
+import ToSigninButton from "../components/authentication/ToSigninButton";
 
 export default function WelcomeScreen() {
     return (
@@ -17,15 +16,11 @@ export default function WelcomeScreen() {
                 style={{ height: "100%", width: "100%", position: "absolute" }}
             />
 
-            <HeaderPanel />
-
-            <View style={{ marginBottom: hp(38) }}>
-                <View>
-                    <Signin />
-                </View>
-                <View>
-                    <ToResetPasswordButton />
-                </View>
+            <View style={{ marginTop: hp(20), marginBottom: hp(18) }}>
+                <HeaderPanel />
+            </View>
+            <View style={{ marginTop: 5 }}>
+                <ToSigninButton text={"tap here"} />
             </View>
         </View>
     );

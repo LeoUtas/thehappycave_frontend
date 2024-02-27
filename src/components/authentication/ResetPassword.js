@@ -15,7 +15,7 @@ import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../../../Firebase/firebase";
 import { useNavigation } from "@react-navigation/native";
 
-import BackgroundImage from "../../../assets/welcomeImage.png";
+import BackgroundImage from "../../../assets/homeImage.png";
 import {
     AuthFormFormat,
     AuthButtonStyle,
@@ -23,6 +23,7 @@ import {
     AuthTitleStyle,
 } from "../../styles/Styles";
 import HeaderPanel from "../../screens/HeaderPanel";
+import ToSigninButton from "./ToSigninButton";
 
 export default function ResetPassword() {
     const navigation = useNavigation();
@@ -52,7 +53,9 @@ export default function ResetPassword() {
                 style={{ height: "100%", width: "100%", position: "absolute" }}
             />
 
-            <HeaderPanel />
+            <View style={{ marginTop: hp(20), marginBottom: 25 }}>
+                <HeaderPanel />
+            </View>
 
             <View style={{ alignItems: "center", marginBottom: hp(35) }}>
                 {/* Reset Title */}
@@ -105,25 +108,8 @@ export default function ResetPassword() {
                         or
                     </Text>
                 </View>
-                <TouchableOpacity
-                    onPress={() => {
-                        navigation.navigate("Welcome");
-                    }}
-                    style={{
-                        ...AuthButtonStyle,
-                    }}
-                >
-                    <Text
-                        style={{
-                            fontFamily: "Fuzzy Bubbles Bold",
-                            fontSize: 20,
-                            color: "white",
-                            ...TextGlowingEffect,
-                        }}
-                    >
-                        tap to sign in
-                    </Text>
-                </TouchableOpacity>
+
+                <ToSigninButton text={"return to sign in"} />
             </View>
         </View>
     );

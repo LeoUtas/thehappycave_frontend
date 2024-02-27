@@ -73,7 +73,9 @@ export default function UpdatePassword() {
                 Hello <Text style={{ fontWeight: "bold" }}>{userName}</Text>
             </Text>
 
-            <HeaderPanel />
+            <View style={{ marginTop: hp(10), marginBottom: 25 }}>
+                <HeaderPanel />
+            </View>
 
             <View style={{ alignItems: "center" }}>
                 {/* Update password title */}
@@ -131,24 +133,16 @@ export default function UpdatePassword() {
 
             <View
                 style={{
+                    position: "absolute",
+                    bottom: 25,
                     flexDirection: "row",
                     alignItems: "center",
                     justifyContent: "center",
-                    marginTop: hp(30),
-                    marginLeft: 10,
-                    marginRight: 10,
+                    left: 0,
+                    right: 0,
                 }}
             >
-                <View
-                    style={{
-                        flex: 1,
-                        justifyContent: "center",
-                        alignItems: "center",
-                        marginBottom: 30,
-                    }}
-                >
-                    <HomeButton />
-                </View>
+                <HomeButton />
             </View>
         </View>
     );

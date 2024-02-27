@@ -11,6 +11,7 @@ import fetchAudio from "./utils/fetchAudio";
 import handleResetConversation from "./utils/resetConversation";
 import saveAudioToFile from "./utils/saveAudioToFile";
 import playAudiofromAudioPath from "./utils/playAudiofromAudioPath";
+import { togglePlayPause } from "./utils/replayAudioManager";
 import combineArrays from "./utils/combineArrays";
 import HomeButton from "../../authentication/HomeButton";
 import ResetButton from "./ResetButton";
@@ -77,7 +78,8 @@ export default function Controller() {
 
                     // play the audioData
                     // setUrlPath(audioPath);
-                    await playAudiofromAudioPath(audioPath);
+                    // await playAudiofromAudioPath(audioPath);
+                    await togglePlayPause(audioPath);
 
                     setIsLoading(false);
 

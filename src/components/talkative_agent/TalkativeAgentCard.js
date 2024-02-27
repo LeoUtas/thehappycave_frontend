@@ -36,7 +36,7 @@ export default function TalkativeAgentCard() {
                                 Mr. Goofalicious
                             </Text>
                             <Text style={{ ...ServiceSubTitleStyle }}>
-                                Hilarious assistant
+                                Your hilarious friend
                             </Text>
                         </View>
                     </View>

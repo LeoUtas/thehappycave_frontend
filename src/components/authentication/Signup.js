@@ -14,7 +14,7 @@ import {
 import { auth } from "../../../Firebase/firebase";
 import { useNavigation } from "@react-navigation/native";
 
-import BackgroundImage from "../../../assets/BackgroundImage.png";
+import BackgroundImage from "../../../assets/homeImage.png";
 import ExitButton from "../authentication/ExitButton";
 import HomeButton from "../authentication/HomeButton";
 import {
@@ -102,8 +102,9 @@ export default function SignupScreen() {
             </Text>
 
             {/* title */}
-            <HeaderPanel />
-
+            <View style={{ marginTop: hp(10), marginBottom: 25 }}>
+                <HeaderPanel />
+            </View>
             <View style={{ alignItems: "center", marginBottom: hp(20) }}>
                 {/* Sign Up Title */}
                 <View style={{ marginBottom: 20 }}>
@@ -178,17 +179,27 @@ export default function SignupScreen() {
 
             <View
                 style={{
+                    position: "absolute",
+                    bottom: 25,
                     flexDirection: "row",
                     alignItems: "center",
                     justifyContent: "space-between",
-                    marginBottom: 20,
                 }}
             >
-                <View style={{ flex: 1, marginLeft: 40 }}>
+                <View
+                    style={{
+                        flex: 1,
+                        marginLeft: 20,
+                    }}
+                >
                     <ExitButton text={"Exit"} />
                 </View>
 
-                <View style={{ flex: 1, marginLeft: 80 }}>
+                <View
+                    style={{
+                        marginRight: 20,
+                    }}
+                >
                     <HomeButton />
                 </View>
             </View>
