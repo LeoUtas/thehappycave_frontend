@@ -24,6 +24,7 @@ import {
     AuthTitleStyle,
 } from "../../styles/Styles";
 import HeaderPanel from "../../screens/HeaderPanel";
+import HelloUserCard from "./HelloUserCard";
 
 export default function UpdatePassword() {
     const navigation = useNavigation();
@@ -61,17 +62,7 @@ export default function UpdatePassword() {
                 style={{ height: "100%", width: "100%", position: "absolute" }}
             />
 
-            <Text
-                style={{
-                    fontFamily: "Fuzzy Bubbles Regular",
-                    color: "white",
-                    marginTop: hp(6),
-                    alignSelf: "flex-end",
-                    marginRight: wp(20),
-                }}
-            >
-                Hello <Text style={{ fontWeight: "bold" }}>{userName}</Text>
-            </Text>
+            <HelloUserCard userName={userName} />
 
             <View style={{ marginTop: hp(10), marginBottom: 25 }}>
                 <HeaderPanel />

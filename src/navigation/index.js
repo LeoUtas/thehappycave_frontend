@@ -10,6 +10,9 @@ import ResetPassword from "../components/authentication/ResetPassword";
 import UpdatePassword from "../components/authentication/UpdatePassword";
 import EnglishTutorController from "../components/english_tutor/components/Controller";
 import TalkativeAgentController from "../components/talkative_agent/components/Controller";
+import ProfileHome from "../components/authentication/userProfile/ProfileHome";
+import EnglishConversationRecords from "../components/english_tutor/components/EnglishConversationRecords";
+
 import useAuth from "../components/authentication/hooks/useAuth";
 import { REACT_APP_ADMIN_EMAIL } from "@env";
 
@@ -54,6 +57,16 @@ function AppNavigation() {
                         screenOptions={{ headerShown: false }}
                         component={TalkativeAgentController}
                     />
+                    <Stack.Screen
+                        name="Profile"
+                        screenOptions={{ headerShown: false }}
+                        component={ProfileHome}
+                    />
+                    <Stack.Screen
+                        name="EnglishConversationRecords"
+                        screenOptions={{ headerShown: false }}
+                        component={EnglishConversationRecords}
+                    />
                 </Stack.Navigator>
             </NavigationContainer>
         );
@@ -70,14 +83,24 @@ function AppNavigation() {
                         component={HomeScreen}
                     />
                     <Stack.Screen
+                        name="UpdatePassword"
+                        screenOptions={{ headerShown: false }}
+                        component={UpdatePassword}
+                    />
+                    <Stack.Screen
                         name="EnglishTutorController"
                         screenOptions={{ headerShown: false }}
                         component={EnglishTutorController}
                     />
                     <Stack.Screen
-                        name="UpdatePassword"
+                        name="Profile"
                         screenOptions={{ headerShown: false }}
-                        component={UpdatePassword}
+                        component={ProfileHome}
+                    />
+                    <Stack.Screen
+                        name="EnglishConversationRecords"
+                        screenOptions={{ headerShown: false }}
+                        component={EnglishConversationRecords}
                     />
                 </Stack.Navigator>
             </NavigationContainer>

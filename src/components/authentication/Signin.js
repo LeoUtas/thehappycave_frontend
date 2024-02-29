@@ -4,18 +4,13 @@ import {
     TouchableOpacity,
     TextInput,
     StatusBar,
-    Image,
 } from "react-native";
 import React, { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../../Firebase/firebase";
-import {
-    heightPercentageToDP as hp,
-    widthPercentageToDP as wp,
-} from "react-native-responsive-screen";
+import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import LinearGradient from "react-native-linear-gradient";
 
-import BackgroundImage from "../../../assets/signinImage.png";
 import HeaderPanel from "../../screens/HeaderPanel";
 import ToResetPasswordButton from "./ToResetPasswordButton";
 
@@ -47,7 +42,6 @@ export default function Signin() {
             style={{
                 flex: 1,
                 alignItems: "center",
-                backgroundColor: "transparent",
             }}
         >
             <LinearGradient

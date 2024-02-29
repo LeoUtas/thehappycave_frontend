@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StatusBar, Image } from "react-native";
+import { View, Text, StatusBar, Image, Pressable } from "react-native";
 import {
     heightPercentageToDP as hp,
     widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
+import { Ionicons } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 import EnglishTutorCard from "../components/english_tutor/EnglishTutorCard";
 import TalkativeAgentCard from "../components/talkative_agent/TalkativeAgentCard";
@@ -13,6 +16,7 @@ import { auth } from "../../Firebase/firebase";
 import ToSignupButton from "../components/authentication/ToSignupButton";
 import { TextGlowingEffect } from "../styles/Styles";
 import ToUpdatePasswordButton from "../components/authentication/ToUpdatePasswordButton";
+import HelloUserCard from "../components/authentication/HelloUserCard";
 import { REACT_APP_ADMIN_EMAIL } from "@env";
 
 const ADMIN_EMAIL = REACT_APP_ADMIN_EMAIL;
@@ -28,6 +32,8 @@ export default function HomeScreen() {
 
     ADMIN_EMAIL;
 
+    const navigation = useNavigation(); // to navigate
+
     return (
         <View style={{ height: "100%", width: "100%" }}>
             <StatusBar style="light" />
@@ -37,36 +43,50 @@ export default function HomeScreen() {
                 style={{ height: "100%", width: "100%", position: "absolute" }}
             />
 
-            <Text
-                style={{
-                    fontFamily: "Fuzzy Bubbles Regular",
-                    fontSize: 14,
-                    color: "white",
-                    paddingTop: hp(6),
-                    textAlign: "right",
-                    marginRight: wp(15),
+            <HelloUserCard userName={userName} />
+
+            <Pressable
+                onPress={() => {
+                    navigation.navigate("Profile");
                 }}
             >
-                Hello{" "}
-                <Text
+                <View
                     style={{
-                        fontFamily: "Fuzzy Bubbles Bold",
-                        fontSize: 16,
-                        color: "white",
-                        paddingTop: hp(6),
-                        textAlign: "right",
-                        marginRight: wp(15),
+                        flexDirection: "row", // Add flexDirection to align items in a row
+                        alignItems: "center", // Align items vertically
+                        alignSelf: "flex-end",
+                        paddingTop: 10,
                     }}
                 >
-                    {userName}
-                </Text>
-            </Text>
+                    <Ionicons
+                        name="return-down-forward-outline"
+                        size={24}
+                        color="white"
+                    />
+                    <Text
+                        style={{
+                            fontFamily: "Fuzzy Bubbles Regular",
+                            fontSize: 14,
+                            color: "white",
+                            paddingHorizontal: 5,
+                        }}
+                    >
+                        to your room
+                    </Text>
+
+                    <MaterialIcons
+                        name="meeting-room"
+                        size={24}
+                        color="white"
+                    />
+                </View>
+            </Pressable>
 
             <Text
                 style={{
                     fontFamily: "Fuzzy Bubbles Bold",
                     fontSize: 36,
-                    paddingTop: hp(10),
+                    paddingTop: hp(8),
                     fontWeight: "bold",
                     textAlign: "center",
                     color: "white",

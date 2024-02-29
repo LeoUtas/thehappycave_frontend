@@ -1,6 +1,5 @@
 import { View, Text } from "react-native";
 import React from "react";
-import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 
 import { TextGlowingEffect } from "../styles/Styles";
 

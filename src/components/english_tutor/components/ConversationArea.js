@@ -5,20 +5,22 @@ import {
     heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 import LinearGradient from "react-native-linear-gradient";
 import { getAuth } from "firebase/auth";
 
 import { togglePlayPause } from "./utils/replayAudioManager";
 import { TextGlowingEffect } from "../../../styles/Styles";
+import { ConversationAreaStyle } from "../../../styles/Styles";
 import LoadingDots from "./LoadingDotComponent";
 
 export default function ConversationArea({ combinedArray, isLoading }) {
     const [userName, setUserName] = useState("");
-    const [isReplaying, setIsReplaying] = useState(false);
     const [onPlayingAudio, setOnPlayingAudio] = useState({
         audioPath: null,
         isReplaying: false,
     });
+    const [onChoosingResponse, setOnChoosingResponse] = useState(true);
 
     const scrollViewRef = useRef(); // Reference to the ScrollView
 
@@ -64,7 +66,6 @@ export default function ConversationArea({ combinedArray, isLoading }) {
                         fontFamily: "Fuzzy Bubbles Bold",
                         fontSize: 14,
                         color: "white",
-                        ...TextGlowingEffect,
                     }}
                 >
                     {userName}
@@ -74,7 +75,6 @@ export default function ConversationArea({ combinedArray, isLoading }) {
                         fontFamily: "Fuzzy Bubbles Bold",
                         fontSize: 14,
                         color: "white",
-                        ...TextGlowingEffect,
                     }}
                 >
                     Ms.PunsAlot
@@ -82,20 +82,7 @@ export default function ConversationArea({ combinedArray, isLoading }) {
             </View>
 
             {/* Conversation frame */}
-            <View
-                style={{
-                    marginTop: 5,
-                    paddingBottom: 10,
-                    padding: 5,
-                    height: hp("62%"),
-                    width: wp("90%"),
-                    alignSelf: "center",
-                    borderWidth: 2,
-                    borderColor: "#557c93",
-                    borderRadius: 35,
-                    overflow: "hidden",
-                }}
-            >
+            <View style={{ ...ConversationAreaStyle }}>
                 <ScrollView
                     ref={scrollViewRef} // Attach the ref to the ScrollView
                     bounces={false}
@@ -136,12 +123,15 @@ export default function ConversationArea({ combinedArray, isLoading }) {
                                     end={{ x: 1, y: 0 }}
                                     colors={["#53dbf2", "#c5aef2", "#8578ea"]}
                                     style={{
-                                        padding: 10,
-                                        borderTopLeftRadius: 20,
+                                        padding: 12,
+                                        flexDirection: "row", // Add flexDirection to align items in a row
+                                        alignItems: "center", // Align items vertically
+                                        borderTopLeftRadius: 30,
                                         borderTopRightRadius: 0,
-                                        borderBottomRightRadius: 25,
-                                        borderBottomLeftRadius: 20,
+                                        borderBottomRightRadius: 35,
+                                        borderBottomLeftRadius: 30,
                                         alignSelf: "flex-end",
+                                        width: "60%",
                                     }}
                                 >
                                     <Pressable
@@ -151,39 +141,52 @@ export default function ConversationArea({ combinedArray, isLoading }) {
                                             )
                                         }
                                         style={{
-                                            flexDirection: "row",
-                                            alignItems: "center",
-                                            paddingRight: 10,
-                                            paddingLeft: 5,
+                                            marginRight: 10, // Adjust spacing
                                         }}
                                     >
-                                        {onPlayingAudio.audioPath ===
-                                            item.audioPath &&
-                                        onPlayingAudio.isReplaying ? (
-                                            <FontAwesome5
-                                                name="pause"
-                                                size={14}
-                                                color="#474ed7"
-                                                style={{ marginRight: 10 }}
-                                            />
-                                        ) : (
-                                            <FontAwesome5
-                                                name="play"
-                                                size={14}
-                                                color="#474ed7"
-                                                style={{ marginRight: 10 }}
-                                            />
-                                        )}
+                                        <FontAwesome5
+                                            name={
+                                                onPlayingAudio.audioPath ===
+                                                    item.audioPath &&
+                                                onPlayingAudio.isReplaying
+                                                    ? "pause"
+                                                    : "play"
+                                            }
+                                            size={14}
+                                            color="#474ed7"
+                                            style={{ paddingLeft: 5 }}
+                                        />
+                                    </Pressable>
 
-                                        <Text
-                                            style={{
-                                                color: "white",
-                                                fontFamily:
-                                                    "Fuzzy Bubbles Regular",
-                                            }}
-                                        >
-                                            openai response
-                                        </Text>
+                                    <Text
+                                        style={{
+                                            color: "white",
+                                            fontFamily: "Fuzzy Bubbles Regular",
+                                            flex: 1, // Make text take the remaining space
+                                        }}
+                                    >
+                                        openai response
+                                    </Text>
+
+                                    <Pressable
+                                        onPress={() => {
+                                            console.log("Star Pressed");
+                                        }}
+                                    >
+                                        <AntDesign
+                                            name={
+                                                onChoosingResponse
+                                                    ? "star"
+                                                    : "staro"
+                                            }
+                                            size={20}
+                                            color={
+                                                onChoosingResponse
+                                                    ? "#ffbf00"
+                                                    : "black"
+                                            }
+                                            style={{ paddingRight: 5 }}
+                                        />
                                     </Pressable>
                                 </LinearGradient>
                             );

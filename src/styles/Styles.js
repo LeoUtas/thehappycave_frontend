@@ -62,3 +62,27 @@ export const ServiceImageStyle = {
     margin: 0,
     borderRadius: 25,
 };
+
+export const ConversationAreaStyle = {
+    marginTop: 5,
+    paddingBottom: 10,
+    padding: 5,
+    height: hp("62%"),
+    width: wp("90%"),
+    alignSelf: "center",
+    borderWidth: 2,
+    borderColor: "#557c93",
+    borderRadius: 35,
+    overflow: "hidden",
+};
+
+export const ProfileDiceCardStyle = {
+    height: hp("12%"),
+    width: hp("12%"),
+    alignSelf: "center",
+    borderWidth: 2,
+    borderRadius: 20,
+    overflow: "hidden",
+};
+
+export const OpacityRateProfileDiceCardStyle = 0.3;
