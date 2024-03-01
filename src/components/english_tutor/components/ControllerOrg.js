@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { View, Pressable, StatusBar, Image } from "react-native";
+import ConversationAreaHeader from "./ConversationAreaHeader";
+import useReactNativeVoice from "./hooks/useReactNativeVoice";
 import { Audio } from "expo-av";
 import * as ExpoFileSystem from "expo-file-system"; // not use for now
 import { FontAwesome5 } from "@expo/vector-icons";
 import LinearGradient from "react-native-linear-gradient";
 
-import playAudiofromAudioPath from "../../../components/english_tutor/components/utils/playAudiofromAudioPath";
-import ConversationAreaHeader from "./ConversationAreaHeader";
-import useReactNativeVoice from "./hooks/useReactNativeVoice";
-import useExpoAV from "./hooks/useExpoAV";
 import fetchAudio from "./utils/fetchAudio";
 import handleResetConversation from "./utils/resetConversation";
 import saveAudioToFile from "./utils/saveAudioToFile";
+import playAudiofromAudioPath from "./utils/playAudiofromAudioPath";
 import { togglePlayPause } from "./utils/replayAudioManager";
 import combineArrays from "./utils/combineArrays";
 import HomeButton from "../../authentication/HomeButton";
@@ -36,9 +35,10 @@ export default function Controller() {
     const [audioResponse, setAudioResponse] = useState([]);
     const [textRequest, setTextRequest] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+
     const { state, startSpeechToText, stopSpeechToText, destroySpeechToText } =
         useReactNativeVoice();
-    const { uri, startRecording, stopRecording } = useExpoAV();
+
     // const [urlPath, setUrlPath] = useState("");
 
     // const ListAudioFiles = async () => {
@@ -56,26 +56,16 @@ export default function Controller() {
     //     }
     // };
 
-    const handleController = async (recordingUri) => {
-        // if (!state.results[0]) {
-        //     return;
-        // }
-
-        if (!recordingUri) {
-            console.log("no uri: ", recordingUri);
+    const handleController = async () => {
+        if (!state.results[0]) {
             return;
         }
-        console.log("uri: ", recordingUri);
-
         try {
             setOnRecording(true);
             setIsLoading(true);
-            await togglePlayPause(recordingUri);
 
             // fetch Audio blob from the server
-            // const audioBlob = await fetchAudio(state.results[0]);
-            const audioBlob = await fetchAudio(recordingUri);
-            // console.log("audioBlob", audioBlob);
+            const audioBlob = await fetchAudio(state.results[0]);
 
             const fileReader = new FileReader();
             fileReader.onload = async (event) => {
@@ -85,37 +75,34 @@ export default function Controller() {
 
                     // save the audioData
                     const audioPath = await saveAudioToFile(audioData);
-                    // console.log("audioData", audioData);
-                    console.log("audioPath: ", audioPath);
 
                     // play the audioData
                     // setUrlPath(audioPath);
                     // await playAudiofromAudioPath(audioPath);
-
                     await togglePlayPause(audioPath);
 
                     setIsLoading(false);
 
-                    // setTextRequest((currentTextRequest) => [
-                    //     ...currentTextRequest,
-                    //     {
-                    //         text: state.results[0],
-                    //         source: "user",
-                    //         time: new Date().toISOString(),
-                    //     },
-                    // ]);
+                    setTextRequest((currentTextRequest) => [
+                        ...currentTextRequest,
+                        {
+                            text: state.results[0],
+                            source: "user",
+                            time: new Date().toISOString(),
+                        },
+                    ]);
 
-                    // setAudioResponse((currentAudioResponse) => [
-                    //     ...currentAudioResponse,
-                    //     {
-                    //         audioPath: audioPath,
-                    //         source: "openai",
-                    //         time: new Date().toISOString(),
-                    //     },
-                    // ]);
+                    setAudioResponse((currentAudioResponse) => [
+                        ...currentAudioResponse,
+                        {
+                            audioPath: audioPath,
+                            source: "openai",
+                            time: new Date().toISOString(),
+                        },
+                    ]);
 
                     // destroy the SpeechToText engine
-                    // destroySpeechToText();
+                    destroySpeechToText();
                     setOnRecording(false);
                 }
             };
@@ -176,16 +163,13 @@ export default function Controller() {
                     {/* Record button */}
                     <Pressable
                         onPressIn={() => {
-                            // startSpeechToText();
-                            startRecording();
+                            startSpeechToText();
                             setOnRecording(true);
                         }}
-                        onPressOut={async () => {
-                            const recordingUri = await stopRecording(); // This now waits for the stopRecording to finish.
-                            if (recordingUri) {
-                                handleController(recordingUri); // Pass the URI directly to handleController.
-                            }
-                            setOnRecording(false); // Update the recording state.
+                        onPressOut={() => {
+                            stopSpeechToText();
+                            handleController();
+                            setOnRecording(false);
                         }}
                         style={{
                             width: 160,

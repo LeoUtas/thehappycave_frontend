@@ -1,33 +1,3 @@
-// import { Audio } from "expo-av";
-
-// let currentAudio = null;
-
-// export async function replayAudiofromAudioPath(newAudioUri) {
-//     if (currentAudio) {
-//         await currentAudio.unloadAsync(); // Stop the current audio if it's playing
-//     }
-
-//     const { sound } = await Audio.Sound.createAsync(
-//         { uri: newAudioUri },
-//         { shouldPlay: true }
-//     );
-//     currentAudio = sound;
-
-//     //  Listen to the playback status and unload the audio when it finishes playing
-//     currentAudio.setOnPlaybackStatusUpdate(async (status) => {
-//         if (status.didJustFinish) {
-//             await currentAudio.unloadAsync();
-//             currentAudio = null;
-//         }
-//     });
-// }
-
-// export async function pauseAudio() {
-//     if (currentAudio) {
-//         await currentAudio.pauseAsync(); // Pause the currently playing audio
-//     }
-// }
-
 import { Audio } from "expo-av";
 
 let currentAudio = null;
