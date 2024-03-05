@@ -9,8 +9,8 @@ import { auth } from "../../../../Firebase/firebase";
 import HomeButton from "../../authentication/HomeButton";
 import GoBackOneStepButton from "../../../navigation/GobackOneStepButton";
 import HelloUserCard from "../../authentication/HelloUserCard";
-import BackgroundImage from "../../../../assets/EnglishConversationRecordBackgroundImage.png";
-import { TextGlowingEffect } from "../../../styles/Styles";
+import BackgroundImage from "../../../../assets/english_tutor/EnglishConversationRecordBackgroundImage.png";
+import { TextGlowingEffect, fontFamilyStyle } from "../../../styles/Styles";
 
 export default function EnglishConversationRecords() {
     const [userName, setUserName] = useState("");
@@ -32,7 +32,7 @@ export default function EnglishConversationRecords() {
 
             <Text
                 style={{
-                    fontFamily: "Fuzzy Bubbles Bold",
+                    fontFamily: fontFamilyStyle,
                     fontSize: 25,
                     paddingTop: hp(5),
                     paddingHorizontal: 20,
@@ -59,7 +59,7 @@ export default function EnglishConversationRecords() {
                     overflow: "hidden",
                 }}
             >
-                <View
+                {/* <View
                     style={{
                         alignSelf: "center",
                         backgroundColor: "rgba(238, 247, 255, 0.3)",
@@ -76,7 +76,7 @@ export default function EnglishConversationRecords() {
                         placeholderTextColor={"grey"}
                         style={{ height: "100%" }}
                     />
-                </View>
+                </View> */}
             </View>
 
             <View

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, Pressable, StatusBar, Image } from "react-native";
 import { Audio } from "expo-av";
+import * as ExpoFileSystem from "expo-file-system"; // not use for now
 import { FontAwesome5 } from "@expo/vector-icons";
 import LinearGradient from "react-native-linear-gradient";
 import uuid from "react-native-uuid";
@@ -10,7 +11,7 @@ import {
     orgMicroButtonGradientStyle,
     onHoldMicroButtonGradientStyle,
 } from "../../../styles/Styles";
-
+import ConversationAreaHeader from "./ConversationAreaHeader";
 import useReactNativeVoice from "./hooks/useReactNativeVoice";
 import useExpoAV from "./hooks/useExpoAV";
 import fetchAudioFromServer from "./utils/fetchAudioFromServer";
@@ -22,7 +23,8 @@ import combineArrays from "./utils/combineArrays";
 import HomeButton from "../../authentication/HomeButton";
 import ResetButton from "./ResetButton";
 import ConversationArea from "./ConversationArea";
-import BackgroundImage from "../../../../assets/english_tutor/EnglishTutorBackgroundImage2.png";
+import BackgroundImage from "../../../../assets/english_tutor/EnglishTutorBackgroundImage.png";
+import makeMessageArray from "./utils/makeMessageArray";
 
 // set some configurations for the audio
 Audio.setAudioModeAsync({
@@ -67,16 +69,49 @@ export default function Controller() {
         setUserUID(auth.currentUser.uid);
     }, []);
 
+    // const [urlPath, setUrlPath] = useState("");
+
+    // const ListAudioFiles = async () => {
+    //     try {
+    //         const result = await ExpoFileSystem.readAsStringAsync(
+    //             ExpoFileSystem.documentDirectory
+    //         );
+    //         if (result.length > 0) {
+    //             const fileName = result[0];
+    //             const path = ExpoFileSystem.documentDirectory + fileName;
+    //             setUrlPath(path);
+    //         }
+    //     } catch (error) {
+    //         console.log(error.message);
+    //     }
+    // };
+
     const handleController = async () => {
         if (!state.results[0]) {
             return;
         }
         try {
+            const audioUri = await stopRecording();
+
+            const date = new Date().toISOString().split("T")[0];
+            const messageID = uuid.v4();
+
+            const userMessage = {
+                audioPath: audioUri,
+                ID: messageID,
+                source: "user",
+                date: date,
+                text: state.results[0],
+                userUID: userUID,
+            };
+
             setOnRecording(true);
             setIsLoading(true);
 
-            // fetch audio blob response from the server
-            const audioBlob = await fetchAudioFromServer(state.results[0]);
+            // fetch Audio blob from the server
+            // const audioBlob = await fetchAudioFromServer(state.results[0]);
+
+            const audioBlob = await fetchAudioFromServer(userMessage.text);
 
             const fileReader = new FileReader();
             fileReader.onload = async (event) => {
@@ -90,38 +125,57 @@ export default function Controller() {
                     setIsLoading(false);
 
                     // play the audioData
+                    // setUrlPath(audioPath);
                     await playAudiofromAudioPath(audioPath);
 
-                    const audioUri = await stopRecording();
-
-                    // fetch text response from the server
                     const { text: openai_text } = await fetchTextFromServer();
 
-                    const date = new Date().toISOString().split("T")[0];
-                    const messageID = uuid.v4();
+                    // const date = new Date().toISOString().split("T")[0];
+                    // const ID = uuid.v4();
+
+                    // setUserUID(userUID);
+
+                    // setUserMessages((currentMessage) => [
+                    //     ...currentMessage,
+                    //     {
+                    //         audioPath: audioUri,
+                    //         ID: ID,
+                    //         source: "user",
+                    //         date: date,
+                    //         text: state.results[0],
+                    //         userUID: userUID,
+                    //     },
+                    // ]);
+
+                    // setAiMessages((currentMessage) => [
+                    //     ...currentMessage,
+                    //     {
+                    //         audioPath: audioPath,
+                    //         ID: ID,
+                    //         source: "openai",
+                    //         date: date,
+                    //         text: openai_text,
+                    //         userUID: userUID,
+                    //     },
+                    // ]);
+
+                    const openaiMessage = {
+                        audioPath: audioPath,
+                        ID: messageID,
+                        source: "openai",
+                        date: date,
+                        text: openai_text,
+                        userUID: userUID,
+                    };
 
                     setUserMessages((currentMessage) => [
                         ...currentMessage,
-                        {
-                            audioPath: audioUri,
-                            ID: messageID,
-                            source: "user",
-                            date: date,
-                            text: state.results[0],
-                            userUID: userUID,
-                        },
+                        userMessage,
                     ]);
 
                     setAiMessages((currentMessage) => [
                         ...currentMessage,
-                        {
-                            audioPath: audioPath,
-                            ID: messageID,
-                            source: "openai",
-                            date: date,
-                            text: openai_text,
-                            userUID: userUID,
-                        },
+                        openaiMessage,
                     ]);
 
                     // destroy the SpeechToText engine
@@ -141,8 +195,8 @@ export default function Controller() {
     const handleResetButton = async () => {
         const response = await handleResetConversation();
         if (response && response.status === 200) {
-            setUserMessages([]);
-            setAiMessages([]);
+            setTextRequest([]);
+            setAudioResponse([]);
         } else {
             console.log("Resetting error");
         }
@@ -157,6 +211,11 @@ export default function Controller() {
                 style={{ height: "100%", width: "100%", position: "absolute" }}
             />
             <View style={{ flex: 1, alignItems: "center" }}>
+                {/* Conversation are header */}
+                <View style={{ marginTop: 50 }}>
+                    <ConversationAreaHeader />
+                </View>
+
                 {/* Conversation area frame */}
                 <ConversationArea
                     combinedMessages={combinedMessages}

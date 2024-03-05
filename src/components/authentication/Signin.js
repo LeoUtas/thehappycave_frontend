@@ -19,6 +19,7 @@ import {
     AuthButtonStyle,
     TextGlowingEffect,
     AuthTitleStyle,
+    fontFamilyStyle,
 } from "../../styles/Styles";
 
 export default function Signin() {
@@ -100,7 +101,7 @@ export default function Signin() {
             >
                 <Text
                     style={{
-                        fontFamily: "Fuzzy Bubbles Bold",
+                        fontFamily: fontFamilyStyle,
                         fontSize: 20,
                         color: "white",
                         ...TextGlowingEffect,
@@ -118,7 +119,7 @@ export default function Signin() {
             >
                 <Text
                     style={{
-                        fontFamily: "Fuzzy Bubbles Bold",
+                        fontFamily: fontFamilyStyle,
                         fontSize: 16,
                         color: "white",
                         ...TextGlowingEffect,

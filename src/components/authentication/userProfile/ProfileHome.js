@@ -11,7 +11,7 @@ import RandomDiceProfileCard from "./RandomDiceProfileCard";
 import BackgroundImage from "../../../../assets/profileHomeImage.png";
 import Avatar from "../../../../assets/icon.png";
 import { auth } from "../../../../Firebase/firebase";
-import { TextGlowingEffect } from "../../../styles/Styles";
+import { TextGlowingEffect, fontFamilyStyle } from "../../../styles/Styles";
 import HomeButton from "../HomeButton";
 import HelloUserCard from "../HelloUserCard";
 
@@ -47,7 +47,7 @@ export default function ProfileHome() {
 
             <Text
                 style={{
-                    fontFamily: "Fuzzy Bubbles Bold",
+                    fontFamily: fontFamilyStyle,
                     fontSize: 36,
                     paddingTop: 20,
                     fontWeight: "bold",

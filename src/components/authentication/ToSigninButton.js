@@ -2,7 +2,11 @@ import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 
-import { AuthButtonStyle, TextGlowingEffect } from "../../styles/Styles";
+import {
+    AuthButtonStyle,
+    TextGlowingEffect,
+    fontFamilyStyle,
+} from "../../styles/Styles";
 
 export default function ToSigninButton({ text }) {
     const navigation = useNavigation();
@@ -21,7 +25,7 @@ export default function ToSigninButton({ text }) {
             >
                 <Text
                     style={{
-                        fontFamily: "Fuzzy Bubbles Bold",
+                        fontFamily: fontFamilyStyle,
                         fontSize: 20,
                         color: "white",
                         ...TextGlowingEffect,

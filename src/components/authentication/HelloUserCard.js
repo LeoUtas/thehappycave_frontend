@@ -5,6 +5,8 @@ import {
     widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
 
+import { fontFamilyStyle } from "../../styles/Styles";
+
 export default function HelloUserCard({ userName }) {
     return (
         <View
@@ -16,7 +18,7 @@ export default function HelloUserCard({ userName }) {
         >
             <Text
                 style={{
-                    fontFamily: "Fuzzy Bubbles Regular",
+                    fontFamily: fontFamilyStyle,
                     fontSize: 14,
                     color: "white",
                     textAlign: "right",
@@ -25,7 +27,7 @@ export default function HelloUserCard({ userName }) {
                 Hello{" "}
                 <Text
                     style={{
-                        fontFamily: "Fuzzy Bubbles Bold",
+                        fontFamily: fontFamilyStyle,
                         fontSize: 16,
                         color: "white",
                         textAlign: "right",

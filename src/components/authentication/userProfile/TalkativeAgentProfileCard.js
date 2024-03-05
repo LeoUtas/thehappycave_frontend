@@ -3,9 +3,12 @@ import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import LinearGradient from "react-native-linear-gradient";
 
-import { TextGlowingEffect } from "../../../styles/Styles";
-import { ProfileDiceCardStyle } from "../../../styles/Styles";
-import { OpacityRateProfileDiceCardStyle } from "../../../styles/Styles";
+import {
+    TextGlowingEffect,
+    ProfileDiceCardStyle,
+    OpacityRateProfileDiceCardStyle,
+    fontFamilyStyle,
+} from "../../../styles/Styles";
 
 export default function TalkativeAgentProfileCard() {
     const navigation = useNavigation(); // to navigate
@@ -46,7 +49,7 @@ export default function TalkativeAgentProfileCard() {
                         <Text
                             style={{
                                 color: "white",
-                                fontFamily: "Fuzzy Bubbles Regular",
+                                fontFamily: fontFamilyStyle,
                                 textAlign: "center",
                                 padding: 5,
                                 ...TextGlowingEffect,

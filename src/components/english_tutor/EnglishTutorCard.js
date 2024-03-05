@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, Image } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
 
-import MsPunsAlotImage from "../../../assets/english_tutor/MsPunsalot.png";
+import MsPunsAlotImage from "../../../assets/english_tutor/EnglishTutorChar1Image.png";
 import { ServiceTitleStyle } from "../../styles/Styles";
 import { ServiceSubTitleStyle } from "../../styles/Styles";
 import { ServiceImageStyle } from "../../styles/Styles";

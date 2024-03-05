@@ -1,26 +1,35 @@
-import { View, Text, ScrollView, Pressable } from "react-native";
+import { View, ScrollView, Pressable, Text } from "react-native";
 import React, { useState, useEffect, useRef } from "react";
-import {
-    widthPercentageToDP as wp,
-    heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
-import { FontAwesome5 } from "@expo/vector-icons";
-import { AntDesign } from "@expo/vector-icons";
-import LinearGradient from "react-native-linear-gradient";
 import { getAuth } from "firebase/auth";
 
-import { togglePlayPause } from "./utils/replayAudioManager";
-import { TextGlowingEffect } from "../../../styles/Styles";
+import togglePlayPause from "./utils/togglePlayPause";
+import toggleChosenMessageID from "./utils/toggleChosenMessageID";
+import fetchMessagesToServer from "./utils/fetchMessagesToServer";
 import { ConversationAreaStyle } from "../../../styles/Styles";
 import LoadingDots from "./LoadingDotComponent";
+import SpeechBubble from "./SpeechBubble";
+import ConversationAreaHeader from "./ConversationAreaHeader";
 
-export default function ConversationArea({ combinedArray, isLoading }) {
+export default function ConversationArea({ combinedMessages, isLoading }) {
     const [userName, setUserName] = useState("");
     const [onPlayingAudio, setOnPlayingAudio] = useState({
         audioPath: null,
         isReplaying: false,
     });
-    const [onChoosingResponse, setOnChoosingResponse] = useState(true);
+
+    // Arrange chosenMessagesID and chosenMessages states
+    const [chosenMessagesID, setChosenMessagesID] = useState([]);
+    const [chosenMessages, setChosenMessages] = useState([]);
+
+    // Update the chosenMessages according to chosenMessagesID
+    useEffect(() => {
+        // Filter combinedMessages for messages whose ID is in chosenMessagesID
+        const filteredMessages = combinedMessages.filter((message) =>
+            chosenMessagesID.includes(message.ID)
+        );
+
+        setChosenMessages(filteredMessages);
+    }, [chosenMessagesID, combinedMessages]);
 
     const scrollViewRef = useRef(); // Reference to the ScrollView
 
@@ -31,7 +40,7 @@ export default function ConversationArea({ combinedArray, isLoading }) {
 
     useEffect(() => {
         scrollViewRef.current.scrollToEnd({ animated: true });
-    }, [combinedArray]); // Scroll to bottom when combinedArray changes
+    }, [combinedMessages]); // Scroll to bottom when combinedMessages changes
 
     const handlePressTogglePlayPauseButton = async (audioPath) => {
         // Check if the pressed audio is currently playing
@@ -51,144 +60,71 @@ export default function ConversationArea({ combinedArray, isLoading }) {
 
     return (
         <View>
-            {/* Title */}
-            <View
-                style={{
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    paddingHorizontal: wp(15),
-                    width: "100%",
-                    paddingTop: 5,
-                }}
-            >
-                <Text
-                    style={{
-                        fontFamily: "Fuzzy Bubbles Bold",
-                        fontSize: 14,
-                        color: "white",
-                    }}
-                >
-                    {userName}
-                </Text>
-                <Text
-                    style={{
-                        fontFamily: "Fuzzy Bubbles Bold",
-                        fontSize: 14,
-                        color: "white",
-                    }}
-                >
-                    Ms.PunsAlot
-                </Text>
+            {/* Conversation area header */}
+            <View style={{ marginTop: 50, paddingRight: 10 }}>
+                <ConversationAreaHeader
+                    chosenMessages={chosenMessages}
+                    fetchMessagesToServer={fetchMessagesToServer}
+                />
             </View>
 
-            {/* Conversation frame */}
-            <View style={{ ...ConversationAreaStyle }}>
+            <View
+                //  Conversation area frame
+                style={{
+                    ...ConversationAreaStyle,
+                }}
+            >
                 <ScrollView
                     ref={scrollViewRef} // Attach the ref to the ScrollView
                     bounces={false}
                     showsVerticalScrollIndicator={false}
                 >
-                    {combinedArray.map((item, index) => {
+                    {combinedMessages.map((item, index) => {
+                        const isChosen = chosenMessagesID.includes(item.ID);
+
                         if (item.source === "user") {
                             return (
-                                <View
+                                <SpeechBubble
                                     key={index}
-                                    style={{
-                                        backgroundColor: "#b2e5f8",
-                                        padding: 10,
-                                        marginTop: 10,
-                                        marginBottom: 10,
-                                        borderTopLeftRadius: 0,
-                                        borderTopRightRadius: 20,
-                                        borderBottomRightRadius: 20,
-                                        borderBottomLeftRadius: 25,
-                                        alignSelf: "flex-start",
-                                    }}
-                                >
-                                    <Text
-                                        style={{
-                                            paddingHorizontal: 10,
-                                            fontFamily: "Fuzzy Bubbles Regular",
-                                        }}
-                                    >
-                                        {item.text}
-                                    </Text>
-                                </View>
+                                    ID={item.ID}
+                                    source={userName}
+                                    audioPath={item.audioPath}
+                                    text={item.text}
+                                    onPlayingAudio={onPlayingAudio}
+                                    handlePressTogglePlayPauseButton={
+                                        handlePressTogglePlayPauseButton
+                                    }
+                                    isChosen={isChosen}
+                                    toggleChosen={() =>
+                                        toggleChosenMessageID(
+                                            item.ID,
+                                            chosenMessagesID,
+                                            setChosenMessagesID
+                                        )
+                                    }
+                                />
                             );
                         } else if (item.source === "openai") {
                             return (
-                                <LinearGradient
+                                <SpeechBubble
                                     key={index}
-                                    start={{ x: 0, y: 0 }}
-                                    end={{ x: 1, y: 0 }}
-                                    colors={["#53dbf2", "#c5aef2", "#8578ea"]}
-                                    style={{
-                                        padding: 12,
-                                        flexDirection: "row", // Add flexDirection to align items in a row
-                                        alignItems: "center", // Align items vertically
-                                        borderTopLeftRadius: 30,
-                                        borderTopRightRadius: 0,
-                                        borderBottomRightRadius: 35,
-                                        borderBottomLeftRadius: 30,
-                                        alignSelf: "flex-end",
-                                        width: "60%",
-                                    }}
-                                >
-                                    <Pressable
-                                        onPress={() =>
-                                            handlePressTogglePlayPauseButton(
-                                                item.audioPath
-                                            )
-                                        }
-                                        style={{
-                                            marginRight: 10, // Adjust spacing
-                                        }}
-                                    >
-                                        <FontAwesome5
-                                            name={
-                                                onPlayingAudio.audioPath ===
-                                                    item.audioPath &&
-                                                onPlayingAudio.isReplaying
-                                                    ? "pause"
-                                                    : "play"
-                                            }
-                                            size={14}
-                                            color="#474ed7"
-                                            style={{ paddingLeft: 5 }}
-                                        />
-                                    </Pressable>
-
-                                    <Text
-                                        style={{
-                                            color: "white",
-                                            fontFamily: "Fuzzy Bubbles Regular",
-                                            flex: 1, // Make text take the remaining space
-                                        }}
-                                    >
-                                        openai response
-                                    </Text>
-
-                                    <Pressable
-                                        onPress={() => {
-                                            console.log("Star Pressed");
-                                        }}
-                                    >
-                                        <AntDesign
-                                            name={
-                                                onChoosingResponse
-                                                    ? "star"
-                                                    : "staro"
-                                            }
-                                            size={20}
-                                            color={
-                                                onChoosingResponse
-                                                    ? "#ffbf00"
-                                                    : "black"
-                                            }
-                                            style={{ paddingRight: 5 }}
-                                        />
-                                    </Pressable>
-                                </LinearGradient>
+                                    ID={item.ID}
+                                    source={"openai"}
+                                    text={item.text}
+                                    audioPath={item.audioPath}
+                                    onPlayingAudio={onPlayingAudio}
+                                    handlePressTogglePlayPauseButton={
+                                        handlePressTogglePlayPauseButton
+                                    }
+                                    isChosen={isChosen}
+                                    toggleChosen={() =>
+                                        toggleChosenMessageID(
+                                            item.ID,
+                                            chosenMessagesID,
+                                            setChosenMessagesID
+                                        )
+                                    }
+                                />
                             );
                         }
                     })}

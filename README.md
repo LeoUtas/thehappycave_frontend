@@ -1,1 +1,1 @@
-This branch stores all the code before doing the experiment with Expo-av. The experiment is to use audio files recorded by Expo-av as the input for using whisper-1 (i.e., STT by OpenAI) to transcribe the audio into the text transcript, and then use the transcript for requesting text response from the text generation model. See more details about this experiment in the branch, named add_expo-av.
+This branch stores the code for experimenting to use expo-av for recording userAudio

@@ -9,7 +9,7 @@ import LinearGradient from "react-native-linear-gradient";
 import { getAuth } from "firebase/auth";
 
 import playAudiofromAudioPath from "./utils/playAudiofromAudioPath";
-import { TextGlowingEffect } from "../../../styles/Styles";
+import { TextGlowingEffect, fontFamilyStyle } from "../../../styles/Styles";
 // import LoadingDots from "./LoadingDotComponent";
 
 export default function ConversationArea({ combinedArray, isLoading }) {
@@ -39,7 +39,7 @@ export default function ConversationArea({ combinedArray, isLoading }) {
             >
                 <Text
                     style={{
-                        fontFamily: "Fuzzy Bubbles Bold",
+                        fontFamily: fontFamilyStyle,
                         fontSize: 14,
                         color: "white",
                         ...TextGlowingEffect,
@@ -49,7 +49,7 @@ export default function ConversationArea({ combinedArray, isLoading }) {
                 </Text>
                 <Text
                     style={{
-                        fontFamily: "Fuzzy Bubbles Bold",
+                        fontFamily: fontFamilyStyle,
                         fontSize: 14,
                         color: "white",
                         ...TextGlowingEffect,
@@ -99,7 +99,7 @@ export default function ConversationArea({ combinedArray, isLoading }) {
                                     <Text
                                         style={{
                                             paddingHorizontal: 10,
-                                            fontFamily: "Fuzzy Bubbles Regular",
+                                            fontFamily: fontFamilyStyle,
                                         }}
                                     >
                                         {item.text}
@@ -144,8 +144,7 @@ export default function ConversationArea({ combinedArray, isLoading }) {
                                         <Text
                                             style={{
                                                 color: "white",
-                                                fontFamily:
-                                                    "Fuzzy Bubbles Regular",
+                                                fontFamily: fontFamilyStyle,
                                             }}
                                         >
                                             openai response

@@ -14,12 +14,13 @@ import BackgroundImage from "../../assets/homeImage.png";
 import ExitButton from "../components/authentication/ExitButton";
 import { auth } from "../../Firebase/firebase";
 import ToSignupButton from "../components/authentication/ToSignupButton";
-import { TextGlowingEffect } from "../styles/Styles";
+import { TextGlowingEffect, fontFamilyStyle } from "../styles/Styles";
 import ToUpdatePasswordButton from "../components/authentication/ToUpdatePasswordButton";
 import HelloUserCard from "../components/authentication/HelloUserCard";
 import { REACT_APP_ADMIN_EMAIL } from "@env";
 
 const ADMIN_EMAIL = REACT_APP_ADMIN_EMAIL;
+console.log(fontFamilyStyle);
 
 export default function HomeScreen() {
     const [userName, setUserName] = useState("");
@@ -65,7 +66,7 @@ export default function HomeScreen() {
                     />
                     <Text
                         style={{
-                            fontFamily: "Fuzzy Bubbles Regular",
+                            fontFamily: fontFamilyStyle,
                             fontSize: 14,
                             color: "white",
                             paddingHorizontal: 5,
@@ -84,7 +85,8 @@ export default function HomeScreen() {
 
             <Text
                 style={{
-                    fontFamily: "Fuzzy Bubbles Bold",
+                    fontFamily: fontFamilyStyle,
+                    fontWeight: "bold",
                     fontSize: 36,
                     paddingTop: hp(8),
                     fontWeight: "bold",
@@ -99,6 +101,7 @@ export default function HomeScreen() {
             <EnglishTutorCard />
             <TalkativeAgentCard />
 
+            {/* Buttons */}
             <View
                 style={{
                     position: "absolute", // Added for absolute positioning
