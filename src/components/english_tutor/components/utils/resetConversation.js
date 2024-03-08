@@ -15,7 +15,7 @@ export default async function handleResetConversation() {
         const response = await axios.get(ENGLISH_TUTOR_RESET_ENDPOINT);
         return response;
     } catch (error) {
-        console.error(error.message);
+        console.error("handleResetConversation error: ", error.message);
         return error.response;
     }
 }

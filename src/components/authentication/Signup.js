@@ -71,7 +71,7 @@ export default function SignupScreen() {
                 }
 
                 const data = await response.json();
-                console.log("User created:", data);
+                console.error("User created:", data);
                 alert("User created successfully");
                 navigation.navigate("Home");
             } catch (error) {

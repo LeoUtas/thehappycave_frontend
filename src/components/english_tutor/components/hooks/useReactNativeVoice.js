@@ -31,7 +31,7 @@ export default function useReactNativeVoice() {
         try {
             await Voice.start("en-US");
         } catch (error) {
-            console.log(error.message);
+            console.error("startSpeechToText error: ", error.message);
         }
     }, [resetState]);
 
@@ -39,7 +39,7 @@ export default function useReactNativeVoice() {
         try {
             await Voice.stop();
         } catch (error) {
-            console.log(error.message);
+            console.error("stopSpeechToText error: ", error.message);
         }
     }, [resetState]);
 
@@ -47,7 +47,7 @@ export default function useReactNativeVoice() {
         try {
             await Voice.cancel();
         } catch (error) {
-            console.log(error.message);
+            console.error("cancelSpeechToText error: ", error.message);
         }
     }, [resetState]);
 
@@ -55,7 +55,7 @@ export default function useReactNativeVoice() {
         try {
             await Voice.destroy();
         } catch (error) {
-            console.log(error.message);
+            console.error("destroySpeechToText error: ", error.message);
         }
         resetState();
     }, [resetState]);

@@ -1,4 +1,4 @@
-import { View, Image, Text, Pressable, ActivityIndicator } from "react-native";
+import { View, Image, Text, Pressable } from "react-native";
 import React, { useState } from "react";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { Entypo, AntDesign, FontAwesome } from "@expo/vector-icons";

@@ -1,9 +1,18 @@
 import { View, Text } from "react-native";
 import React from "react";
+import { useFonts } from "expo-font";
 
 import { TextGlowingEffect, fontFamilyStyle } from "../styles/Styles";
 
 export default function HeaderPanel() {
+    const [fontsLoaded] = useFonts({
+        fontFamilyStyle: require("../../assets/fonts/Fuzzy Bubbles Regular.ttf"),
+    });
+
+    if (!fontsLoaded) {
+        return undefined;
+    }
+
     return (
         <View
             style={{

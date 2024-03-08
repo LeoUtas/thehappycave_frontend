@@ -48,7 +48,7 @@ export default function ProfileHome() {
             <Text
                 style={{
                     fontFamily: fontFamilyStyle,
-                    fontSize: 36,
+                    fontSize: 32,
                     paddingTop: 20,
                     fontWeight: "bold",
                     textAlign: "center",

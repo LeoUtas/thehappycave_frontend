@@ -1,11 +1,11 @@
-import { View, ScrollView, Pressable, Text } from "react-native";
+import { View, ScrollView } from "react-native";
 import React, { useState, useEffect, useRef } from "react";
 import { getAuth } from "firebase/auth";
 
 import togglePlayPause from "./utils/togglePlayPause";
 import toggleChosenMessageID from "./utils/toggleChosenMessageID";
 import fetchMessagesToServer from "./utils/fetchMessagesToServer";
-import { ConversationAreaStyle } from "../../../styles/Styles";
+import { ConversationAreaFrameStyle } from "../../../styles/Styles";
 import LoadingDots from "./LoadingDotComponent";
 import SpeechBubble from "./SpeechBubble";
 import ConversationAreaHeader from "./ConversationAreaHeader";
@@ -71,7 +71,7 @@ export default function ConversationArea({ combinedMessages, isLoading }) {
             <View
                 //  Conversation area frame
                 style={{
-                    ...ConversationAreaStyle,
+                    ...ConversationAreaFrameStyle,
                 }}
             >
                 <ScrollView

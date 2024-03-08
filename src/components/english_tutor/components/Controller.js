@@ -28,7 +28,7 @@ import BackgroundImage from "../../../../assets/english_tutor/EnglishTutorBackgr
 Audio.setAudioModeAsync({
     allowsRecordingIOS: false,
     staysActiveInBackground: false,
-    playsInSilentModeIOS: true, // very important
+    playsInSilentModeIOS: false, // very important
     shouldDuckAndroid: true,
     playThroughEarpieceAndroid: false,
 });
@@ -49,10 +49,6 @@ export default function Controller() {
     // arrangement for making combinedMessages (i.e., combining user and ai messages)
     const [userMessages, setUserMessages] = useState([]);
     const [aiMessages, setAiMessages] = useState([]);
-
-    // arrangement for making reset button (i.e., old reset button) - not working now
-    const [audioResponse, setAudioResponse] = useState([]);
-    const [textRequest, setTextRequest] = useState([]);
 
     // arrangement for using react-native-voice custom hook
     const { state, startSpeechToText, stopSpeechToText, destroySpeechToText } =
@@ -132,7 +128,7 @@ export default function Controller() {
 
             fileReader.readAsDataURL(audioBlob);
         } catch (error) {
-            console.log("error at handleController: ", error.message);
+            console.error("error at handleController: ", error.message);
         }
     };
 
@@ -144,7 +140,7 @@ export default function Controller() {
             setUserMessages([]);
             setAiMessages([]);
         } else {
-            console.log("Resetting error");
+            console.error("Resetting error");
         }
     };
 

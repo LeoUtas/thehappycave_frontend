@@ -6,6 +6,6 @@ export default async function playAudiofromAudioPath(path) {
         await soundObject.loadAsync({ uri: path });
         await soundObject.playAsync();
     } catch (error) {
-        console.log(error.message);
+        console.error("playAudioFromPath error: ", error.message);
     }
 }

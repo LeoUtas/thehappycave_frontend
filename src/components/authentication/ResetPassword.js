@@ -38,7 +38,7 @@ export default function ResetPassword() {
                 alert("Password reset email sent!");
                 navigation.navigate("Welcome");
             } catch (error) {
-                console.log("error when resetting password: ", error.message);
+                console.error("error when resetting password: ", error.message);
             }
         } else {
             alert("It's required to enter: Email");

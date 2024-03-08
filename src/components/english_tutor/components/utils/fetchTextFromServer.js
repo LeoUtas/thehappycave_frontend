@@ -9,8 +9,6 @@ const ENGLISH_TUTOR_FETCH_TEXT_FROM_SERVER_ENDPOINT =
 export default async function fetchTextFromServer() {
     ENGLISH_TUTOR_FETCH_TEXT_FROM_SERVER_ENDPOINT;
 
-    console.log(ENGLISH_TUTOR_FETCH_TEXT_FROM_SERVER_ENDPOINT);
-
     try {
         const response = await fetch(
             ENGLISH_TUTOR_FETCH_TEXT_FROM_SERVER_ENDPOINT

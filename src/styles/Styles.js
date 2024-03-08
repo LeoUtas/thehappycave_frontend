@@ -79,12 +79,12 @@ export const ServiceImageStyle = {
     borderRadius: 25,
 };
 
-export const ConversationAreaStyle = {
+export const ConversationAreaFrameStyle = {
     marginTop: 5,
     paddingBottom: 10,
     padding: 5,
     height: hp("62%"),
-    width: wp("90%"),
+    width: wp("94%"),
     alignSelf: "center",
     borderWidth: 2,
     borderColor: "#557c93",
@@ -139,3 +139,16 @@ export const AiSpeechBubbleTextStyle = {
 export const AilinearGradientColorStyle = ["#53dbf2", "#c5aef2", "#8578ea"];
 
 export const UserlinearGradientColorStyle = ["#f6f6f6", "#05c9f9", "#268ab2"];
+
+export const ConversationAreaFrameForRecordsStyle = {
+    marginTop: 20,
+    paddingBottom: 10,
+    padding: 5,
+    height: hp("68%"),
+    width: wp("94%"),
+    alignSelf: "center",
+    borderWidth: 2,
+    borderColor: "#557c93",
+    borderRadius: 35,
+    overflow: "hidden",
+};

@@ -18,7 +18,7 @@ export default function useExpoAV() {
     const startRecording = useCallback(async () => {
         try {
             if (permissionResponse?.status !== "granted") {
-                console.log("Requesting permission ...");
+                // console.log("Requesting permission ...");
                 await requestPermission();
             }
             await Audio.setAudioModeAsync({
@@ -26,19 +26,19 @@ export default function useExpoAV() {
                 playsInSilentModeIOS: true,
             });
 
-            console.log("Starting recording ...");
+            // console.log("Starting recording ...");
             const { recording } = await Audio.Recording.createAsync(
                 Audio.RecordingOptionsPresets.HIGH_QUALITY
             );
             setRecording(recording);
-            console.log("Recording started");
+            // console.log("Recording started");
         } catch (error) {
             console.error("Failed to start recording", error);
         }
     }, [permissionResponse, requestPermission]);
 
     const stopRecording = useCallback(async () => {
-        console.log("Stopping recording ...");
+        // console.log("Stopping recording ...");
         if (recording) {
             setRecording(undefined);
             await recording.stopAndUnloadAsync();

@@ -31,7 +31,7 @@ export default function Signin() {
             try {
                 await signInWithEmailAndPassword(auth, email, password);
             } catch (error) {
-                console.log("error when signing in: ", error.message);
+                console.error("error when signing in: ", error.message);
             }
         } else {
             alert("It is required to enter email & password");
