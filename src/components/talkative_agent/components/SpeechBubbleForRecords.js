@@ -67,17 +67,7 @@ export default function SpeechBubbleForRecords({
                             paddingVertical: bubbleSpeechHeight,
                         }}
                     >
-                        <FontAwesome5
-                            // name={
-                            //     onPlayingAudio.audioPath === audioPath &&
-                            //     onPlayingAudio.isPlaying
-                            //         ? "pause"
-                            //         : "play"
-                            // }
-                            name="play"
-                            size={14}
-                            color="#474ed7"
-                        />
+                        <FontAwesome5 name="play" size={14} color="#474ed7" />
                     </Pressable>
 
                     <Pressable

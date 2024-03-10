@@ -32,7 +32,6 @@ Audio.setAudioModeAsync({
     playsInSilentModeIOS: true, // very important
     shouldDuckAndroid: true,
     playThroughEarpieceAndroid: false,
-    // defaultToSpeaker: true, // This is crucial for 'playAndRecord'
 });
 
 const orgMicroButtonGradient = orgMicroButtonGradientStyle;
@@ -73,10 +72,6 @@ export default function Controller() {
     }, []);
 
     const handleController = async () => {
-        // if (!state.results[0]) {
-        //     return;
-        // }
-
         let text = "";
 
         if (!state.results[0]) {
@@ -86,8 +81,6 @@ export default function Controller() {
 
                 text = PromptTextWhenWrong;
             }
-
-            // return; // Just exit do nothing
         } else {
             text = state.results[0];
         }
@@ -97,7 +90,6 @@ export default function Controller() {
             setIsLoading(true);
 
             // fetch audio blob response from the server
-            // const audioBlob = await fetchAudioFromServer(state.results[0]);
             const audioBlob = await fetchAudioFromServer(text);
 
             const fileReader = new FileReader();

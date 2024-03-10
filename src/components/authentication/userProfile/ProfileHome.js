@@ -34,16 +34,6 @@ export default function ProfileHome() {
             />
 
             <HelloUserCard userName={userName} />
-            {/* <Image
-                source={Avatar}
-                style={{
-                    height: hp(8),
-                    width: hp(8),
-                    marginTop: 5,
-                    alignSelf: "flex-end",
-                    marginRight: 40,
-                }}
-            /> */}
 
             <Text
                 style={[

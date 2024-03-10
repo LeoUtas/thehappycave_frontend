@@ -6,21 +6,6 @@ import { REACT_APP_TALKATIVE_AGENT_FETCH_AUDIO_FROM_SERVER_ENDPOINT_PRODUCTION }
 const TALKATIVE_AGENT_FETCH_AUDIO_FROM_SERVER_ENDPOINT =
     REACT_APP_TALKATIVE_AGENT_FETCH_AUDIO_FROM_SERVER_ENDPOINT_PRODUCTION;
 
-// export default async function fetchAudioFromServer(text) {
-//     TALKATIVE_AGENT_FETCH_AUDIO_FROM_SERVER_ENDPOINT;
-
-//     const response = await fetch(
-//         TALKATIVE_AGENT_FETCH_AUDIO_FROM_SERVER_ENDPOINT,
-//         {
-//             method: "POST",
-//             headers: { "Content-Type": "application/json" },
-//             body: JSON.stringify({ text: text }),
-//         }
-//     );
-
-//     return await response.blob();
-// }
-
 export default async function fetchAudioFromServer(recordingUri) {
     TALKATIVE_AGENT_FETCH_AUDIO_FROM_SERVER_ENDPOINT;
 

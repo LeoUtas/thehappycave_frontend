@@ -82,7 +82,6 @@ export default function Controller() {
             setIsLoading(true);
 
             // fetch audio blob response from the server
-            // const audioBlob = await fetchAudioFromServer(state.results[0]);
             const audioBlob = await fetchAudioFromServer(recordingUri);
 
             const fileReader = new FileReader();

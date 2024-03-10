@@ -25,12 +25,11 @@ import {
 import HeaderPanel from "../../screens/HeaderPanel";
 import HelloUserCard from "./HelloUserCard";
 import { TextStyles } from "../../styles/FontStyles";
-import {
-    REACT_APP_THEHAPPYCAVE_AUTH_ENDPOINT_DEV,
-    REACT_APP_THEHAPPYCAVE_AUTH_ENDPOINT_PRODUCTION,
-} from "@env";
+import { REACT_APP_THEHAPPYCAVE_AUTH_ENDPOINT_PRODUCTION } from "@env";
 
-// const THEHAPPYCAVE_AUTH_ENDPOINT = REACT_APP_THEHAPPYCAVE_AUTH_ENDPOINT_DEV;
+// const THEHAPPYCAVE_AUTH_ENDPOINT =
+//     "http://localhost:8000/thehappycave_auth/create_user/";
+
 const THEHAPPYCAVE_AUTH_ENDPOINT =
     REACT_APP_THEHAPPYCAVE_AUTH_ENDPOINT_PRODUCTION;
 

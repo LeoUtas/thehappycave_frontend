@@ -44,23 +44,6 @@ export default function ConversationArea({ combinedMessages, isLoading }) {
     }, [combinedMessages]); // Scroll to bottom when combinedMessages changes
 
     // // handle toggle play and pause for loaded messages from server
-    // const handlePressTogglePlayPauseButton = async (audioPath) => {
-    //     // Check if the pressed audio is currently playing
-    //     if (onPlayingAudio.audioPath === audioPath) {
-    //         // Toggle the play/pause state
-    //         await togglePlayPause(audioPath); // Ensure this function handles toggling logic
-    //         setOnPlayingAudio({
-    //             ...onPlayingAudio,
-    //             isReplaying: !onPlayingAudio.isReplaying,
-    //         });
-    //     } else {
-    //         // Play the new audio and update the currentAudio state
-    //         await togglePlayPause(audioPath); // Ensure this starts playing the new audio
-    //         setOnPlayingAudio({ audioPath: audioPath, isReplaying: true });
-    //     }
-    // };
-
-    // // handle toggle play and pause for loaded messages from server
     const handlePressTogglePlayPauseButton = async (audioPath) => {
         // Check if the pressed audio is currently playing
         if (onPlayingAudio.audioPath === audioPath) {
