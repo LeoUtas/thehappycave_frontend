@@ -2,7 +2,7 @@ import { doc, deleteDoc } from "firebase/firestore";
 import { db } from "../../../../../Firebase/firebase";
 import { getStorage, ref, deleteObject } from "firebase/storage";
 
-const SERVICE_NAME = "EnglishTutor";
+const SERVICE_NAME = "TalkativeAgent";
 
 export default async function fetchDeleteMessagesFromServer(ID) {
     try {

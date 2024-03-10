@@ -90,7 +90,7 @@ export default function SpeechBubbleForRecords({
                         }}
                     >
                         <Text style={TextStyles.SpeechBubbleTitle}>
-                            {source === "openai" ? "Ms. PunsAlot" : source}
+                            {source === "openai" ? "Mr. Guffawlius" : source}
                         </Text>
                     </Pressable>
 

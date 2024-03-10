@@ -71,24 +71,10 @@ export default function Controller() {
         reset();
     }, []);
 
-    const handleController = async () => {
-        // if (!state.results[0]) {
-        //     return;
-        // }
-
-        let text = "";
-
-        if (!state.results[0]) {
-            // Immediately stop recording and cleanup if there are no speech results
-            if (recording) {
-                await stopRecording(); // Ensure the recording is stopped if it was started.
-
-                text = PromptTextWhenWrong;
-            }
-
-            // return; // Just exit do nothing
-        } else {
-            text = state.results[0];
+    const handleController = async (recordingUri) => {
+        if (!recordingUri) {
+            console.log("no uri: ", recordingUri);
+            return;
         }
 
         try {
@@ -97,7 +83,7 @@ export default function Controller() {
 
             // fetch audio blob response from the server
             // const audioBlob = await fetchAudioFromServer(state.results[0]);
-            const audioBlob = await fetchAudioFromServer(text);
+            const audioBlob = await fetchAudioFromServer(recordingUri);
 
             const fileReader = new FileReader();
             fileReader.onload = async (event) => {
@@ -113,46 +99,42 @@ export default function Controller() {
                     // play the audioData
                     await playAudiofromAudioPath(audioPath);
 
-                    if (text === PromptTextWhenWrong) {
-                        console.log("nothing for speech to text");
-                    } else {
-                        const audioUri = await stopRecording();
+                    // fetch text response from the server
+                    const {
+                        "openai text": openai_text,
+                        "user text": user_text,
+                    } = await fetchTextFromServer();
 
-                        // fetch text response from the server
-                        const { text: openai_text } =
-                            await fetchTextFromServer();
+                    const date = new Date().toISOString().split("T")[0];
+                    const messageID = uuid.v4();
 
-                        const date = new Date().toISOString().split("T")[0];
-                        const messageID = uuid.v4();
+                    setUserMessages((currentMessage) => [
+                        ...currentMessage,
+                        {
+                            audioPath: recordingUri,
+                            ID: messageID,
+                            source: "user",
+                            date: date,
+                            text: user_text,
+                            userUID: userUID,
+                        },
+                    ]);
 
-                        setUserMessages((currentMessage) => [
-                            ...currentMessage,
-                            {
-                                audioPath: audioUri,
-                                ID: messageID,
-                                source: "user",
-                                date: date,
-                                text: state.results[0],
-                                userUID: userUID,
-                            },
-                        ]);
+                    setAiMessages((currentMessage) => [
+                        ...currentMessage,
+                        {
+                            audioPath: audioPath,
+                            ID: messageID,
+                            source: "openai",
+                            date: date,
+                            text: openai_text,
+                            userUID: userUID,
+                        },
+                    ]);
 
-                        setAiMessages((currentMessage) => [
-                            ...currentMessage,
-                            {
-                                audioPath: audioPath,
-                                ID: messageID,
-                                source: "openai",
-                                date: date,
-                                text: openai_text,
-                                userUID: userUID,
-                            },
-                        ]);
-
-                        // destroy the SpeechToText engine
-                        destroySpeechToText();
-                        setOnRecording(false);
-                    }
+                    // destroy the SpeechToText engine
+                    // destroySpeechToText();
+                    setOnRecording(false);
                 }
             };
 
@@ -208,14 +190,15 @@ export default function Controller() {
                     {/* Record button */}
                     <Pressable
                         onPressIn={() => {
-                            startSpeechToText();
                             startRecording();
                             setOnRecording(true);
                         }}
                         onPressOut={async () => {
-                            stopSpeechToText();
-                            await handleController();
-                            setOnRecording(false);
+                            const recordingUri = await stopRecording(); // This now waits for the stopRecording to finish.
+                            if (recordingUri) {
+                                handleController(recordingUri); // Pass the URI directly to handleController.
+                            }
+                            setOnRecording(false); // Update the recording state.
                         }}
                         style={{
                             width: 160,

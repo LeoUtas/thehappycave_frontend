@@ -85,7 +85,7 @@ export default function SpeechBubble({
                         style={{ flex: 1, paddingVertical: bubbleSpeechHeight }}
                     >
                         <Text style={TextStyles.SpeechBubbleTitle}>
-                            {source === "openai" ? "Ms. PunsAlot" : source}
+                            {source === "openai" ? "Mr. Guffawlius" : source}
                         </Text>
                     </Pressable>
 
