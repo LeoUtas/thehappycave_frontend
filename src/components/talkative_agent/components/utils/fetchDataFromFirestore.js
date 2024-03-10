@@ -34,6 +34,7 @@ function transformFetchedData(data) {
         audioPath: data.audio_url,
         ID: data.ID,
         source: data.source,
+        time: data.time,
         date: data.date,
         text: data.text,
         userUID: data.userUID,

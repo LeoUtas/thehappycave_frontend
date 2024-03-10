@@ -121,12 +121,12 @@ export default function ConversationArea({ combinedMessages, isLoading }) {
                                     }
                                 />
                             );
-                        } else if (item.source === "openai") {
+                        } else if (item.source === "ai") {
                             return (
                                 <SpeechBubble
                                     key={index}
                                     ID={item.ID}
-                                    source={"openai"}
+                                    source={"ai"}
                                     text={item.text}
                                     audioPath={item.audioPath}
                                     onPlayingAudio={onPlayingAudio}

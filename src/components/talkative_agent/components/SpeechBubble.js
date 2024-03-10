@@ -33,19 +33,17 @@ export default function SpeechBubble({
 
     // styling for the linear gradient component according to source
     const linearGradientColor =
-        source === "openai"
+        source === "ai"
             ? AilinearGradientColorStyle
             : UserlinearGradientColorStyle;
 
     // styling for the speech bubble according to source
     const bubbleStyle =
-        source === "openai" ? AiSpeechBubbleStyle : UserSpeechBubbleStyle;
+        source === "ai" ? AiSpeechBubbleStyle : UserSpeechBubbleStyle;
 
     // stylying for the text message according to source
     const displayTextStyle =
-        source === "openai"
-            ? AiSpeechBubbleTextStyle
-            : UserSpeechBubbleTextStyle;
+        source === "ai" ? AiSpeechBubbleTextStyle : UserSpeechBubbleTextStyle;
 
     const bubbleSpeechHeight = 10; // style the height of bubbleSpeech
 
@@ -85,7 +83,7 @@ export default function SpeechBubble({
                         style={{ flex: 1, paddingVertical: bubbleSpeechHeight }}
                     >
                         <Text style={TextStyles.SpeechBubbleTitle}>
-                            {source === "openai" ? "Mr. Guffawlius" : source}
+                            {source === "ai" ? "Mr. Guffawlius" : source}
                         </Text>
                     </Pressable>
 

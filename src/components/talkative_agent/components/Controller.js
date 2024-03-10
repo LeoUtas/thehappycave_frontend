@@ -100,12 +100,14 @@ export default function Controller() {
                     await playAudiofromAudioPath(audioPath);
 
                     // fetch text response from the server
-                    const {
-                        "openai text": openai_text,
-                        "user text": user_text,
-                    } = await fetchTextFromServer();
+                    const { "ai text": ai_text, "user text": user_text } =
+                        await fetchTextFromServer();
+
+                    const processedUserText = user_text.replace(/\n/, ""); // chop off the \n in text from speech to text output
 
                     const date = new Date().toISOString().split("T")[0];
+                    const time = new Date();
+
                     const messageID = uuid.v4();
 
                     setUserMessages((currentMessage) => [
@@ -114,8 +116,9 @@ export default function Controller() {
                             audioPath: recordingUri,
                             ID: messageID,
                             source: "user",
+                            time: time,
                             date: date,
-                            text: user_text,
+                            text: processedUserText,
                             userUID: userUID,
                         },
                     ]);
@@ -125,9 +128,10 @@ export default function Controller() {
                         {
                             audioPath: audioPath,
                             ID: messageID,
-                            source: "openai",
+                            source: "ai",
+                            time: time,
                             date: date,
-                            text: openai_text,
+                            text: ai_text,
                             userUID: userUID,
                         },
                     ]);

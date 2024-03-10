@@ -34,19 +34,17 @@ export default function SpeechBubbleForRecords({
 
     // styling for the linear gradient component according to source
     const linearGradientColor =
-        source === "openai"
+        source === "ai"
             ? AilinearGradientColorStyle
             : UserlinearGradientColorStyle;
 
     // styling for the speech bubble according to source
     const bubbleStyle =
-        source === "openai" ? AiSpeechBubbleStyle : UserSpeechBubbleStyle;
+        source === "ai" ? AiSpeechBubbleStyle : UserSpeechBubbleStyle;
 
     // stylying for the text message according to source
     const displayTextStyle =
-        source === "openai"
-            ? AiSpeechBubbleTextStyle
-            : UserSpeechBubbleTextStyle;
+        source === "ai" ? AiSpeechBubbleTextStyle : UserSpeechBubbleTextStyle;
 
     const bubbleSpeechHeight = 10; // style the height of bubbleSpeech
 
@@ -90,7 +88,7 @@ export default function SpeechBubbleForRecords({
                         }}
                     >
                         <Text style={TextStyles.SpeechBubbleTitle}>
-                            {source === "openai" ? "Ms. PunsAlot" : source}
+                            {source === "ai" ? "Ms. PunsAlot" : source}
                         </Text>
                     </Pressable>
 
@@ -119,8 +117,7 @@ export default function SpeechBubbleForRecords({
                             TextStyles.SpeechBubbleTitle,
                             {
                                 color: "white",
-                                textAlign:
-                                    source === "openai" ? "right" : "left",
+                                textAlign: source === "ai" ? "right" : "left",
                             },
                         ]}
                     >
@@ -131,8 +128,7 @@ export default function SpeechBubbleForRecords({
                             TextStyles.SpeechBubbleTitle,
                             {
                                 color: "white",
-                                textAlign:
-                                    source === "openai" ? "right" : "left",
+                                textAlign: source === "ai" ? "right" : "left",
                             },
                         ]}
                     >

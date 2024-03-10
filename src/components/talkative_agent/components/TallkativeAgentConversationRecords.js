@@ -85,13 +85,13 @@ export default function TalkativeAgentConversationRecords() {
                 userUID
             );
 
-            const openaiMessages = await fetchDataFromFirestore(
-                `openaiMessages${SERVICE_NAME}`,
+            const aiMessages = await fetchDataFromFirestore(
+                `aiMessages${SERVICE_NAME}`,
                 userUID
             );
 
             setUserMessages(userMessages);
-            setAiMessages(openaiMessages);
+            setAiMessages(aiMessages);
 
             setIsLoading(false);
         } catch (error) {
@@ -268,12 +268,12 @@ export default function TalkativeAgentConversationRecords() {
                                         }
                                     />
                                 );
-                            } else if (item.source === "openai") {
+                            } else if (item.source === "ai") {
                                 return (
                                     <SpeechBubbleForRecords
                                         key={index}
                                         ID={item.ID}
-                                        source={"openai"}
+                                        source={"ai"}
                                         audioPath={item.audioPath}
                                         date={item.date}
                                         text={item.text}
@@ -308,9 +308,9 @@ export default function TalkativeAgentConversationRecords() {
                     }}
                 >
                     <Pressable
-                        onPress={() => {
-                            handleDeleteChosenMessages();
-                            handleFetchData();
+                        onPress={async () => {
+                            await handleDeleteChosenMessages();
+                            await handleFetchData();
                         }}
                     >
                         <MaterialCommunityIcons

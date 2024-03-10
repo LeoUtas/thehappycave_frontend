@@ -120,10 +120,11 @@ export default function Controller() {
                         const audioUri = await stopRecording();
 
                         // fetch text response from the server
-                        const { text: openai_text } =
-                            await fetchTextFromServer();
+                        const { text: ai_text } = await fetchTextFromServer();
 
                         const date = new Date().toISOString().split("T")[0];
+                        const time = new Date();
+
                         const messageID = uuid.v4();
 
                         setUserMessages((currentMessage) => [
@@ -132,6 +133,7 @@ export default function Controller() {
                                 audioPath: audioUri,
                                 ID: messageID,
                                 source: "user",
+                                time: time,
                                 date: date,
                                 text: state.results[0],
                                 userUID: userUID,
@@ -143,9 +145,10 @@ export default function Controller() {
                             {
                                 audioPath: audioPath,
                                 ID: messageID,
-                                source: "openai",
+                                source: "ai",
+                                time: time,
                                 date: date,
-                                text: openai_text,
+                                text: ai_text,
                                 userUID: userUID,
                             },
                         ]);

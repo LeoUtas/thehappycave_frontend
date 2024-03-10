@@ -8,21 +8,21 @@ export default async function fetchDeleteMessagesFromServer(ID) {
     try {
         // delete data from Firestore collections
         await deleteDoc(doc(db, `userMessages${SERVICE_NAME}`, ID));
-        await deleteDoc(doc(db, `openaiMessages${SERVICE_NAME}`, ID));
+        await deleteDoc(doc(db, `aiMessages${SERVICE_NAME}`, ID));
 
         const storage = getStorage();
 
         const userPath = `userAudio${SERVICE_NAME}/${ID}`;
         const userAudioRef = ref(storage, userPath);
 
-        const openaiPath = `openaiAudio${SERVICE_NAME}/${ID}`;
-        const openaiAudioRef = ref(storage, openaiPath);
+        const aiPath = `aiAudio${SERVICE_NAME}/${ID}`;
+        const aiAudioRef = ref(storage, aiPath);
 
         // Delete the file
         deleteObject(userAudioRef);
 
         // Delete the file
-        deleteObject(openaiAudioRef);
+        deleteObject(aiAudioRef);
     } catch (error) {
         console.error("Error fetching messages:", error);
         return error.response;

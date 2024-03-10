@@ -25,6 +25,7 @@ export default async function fetchMessagesToServer(messages) {
                 },
                 { name: "ID", data: message.ID },
                 { name: "source", data: message.source },
+                { name: "time", data: message.time },
                 { name: "date", data: message.date },
                 { name: "text", data: message.text },
                 { name: "userUID", data: message.userUID },
