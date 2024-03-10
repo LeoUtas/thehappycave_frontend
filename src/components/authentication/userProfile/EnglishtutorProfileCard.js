@@ -4,15 +4,14 @@ import { useNavigation } from "@react-navigation/native";
 import LinearGradient from "react-native-linear-gradient";
 
 import {
-    TextGlowingEffect,
     ProfileDiceCardStyle,
     OpacityRateProfileDiceCardStyle,
-    fontFamilyStyle,
 } from "../../../styles/Styles";
+import { TextStyles } from "../../../styles/FontStyles";
 
 export default function EnglishtutorProfileCard() {
     const opacityRate = OpacityRateProfileDiceCardStyle;
-    const navigation = useNavigation(); // to navigate
+    const navigation = useNavigation();
 
     return (
         <View
@@ -42,16 +41,9 @@ export default function EnglishtutorProfileCard() {
                         onPress={() => {
                             navigation.navigate("EnglishConversationRecords");
                         }}
+                        style={{ paddingHorizontal: 5, paddingVertical: 35 }}
                     >
-                        <Text
-                            style={{
-                                color: "white",
-                                fontFamily: fontFamilyStyle,
-                                textAlign: "center",
-                                padding: 5,
-                                ...TextGlowingEffect,
-                            }}
-                        >
+                        <Text style={TextStyles.ServiceSubtitle}>
                             Records with Ms. PunsAlot
                         </Text>
                     </Pressable>

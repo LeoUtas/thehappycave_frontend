@@ -2,11 +2,8 @@ import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 
-import {
-    AuthButtonStyle,
-    TextGlowingEffect,
-    fontFamilyStyle,
-} from "../../styles/Styles";
+import { AuthButtonStyle, TextGlowingEffect } from "../../styles/Styles";
+import { TextStyles } from "../../styles/FontStyles";
 
 export default function ToSigninButton({ text }) {
     const navigation = useNavigation();
@@ -24,12 +21,10 @@ export default function ToSigninButton({ text }) {
                 style={{ ...AuthButtonStyle, marginTop: 10 }}
             >
                 <Text
-                    style={{
-                        fontFamily: fontFamilyStyle,
-                        fontSize: 20,
-                        color: "white",
-                        ...TextGlowingEffect,
-                    }}
+                    style={[
+                        TextStyles.AuthTextButton,
+                        { ...TextGlowingEffect },
+                    ]}
                 >
                     {text}
                 </Text>

@@ -4,6 +4,7 @@ import { getAuth } from "firebase/auth";
 
 import togglePlayPause from "./utils/togglePlayPause";
 import toggleChosenMessageID from "./utils/toggleChosenMessageID";
+import playAudiofromAudioPath from "./utils/playAudiofromAudioPath";
 import fetchMessagesToServer from "./utils/fetchMessagesToServer";
 import { ConversationAreaFrameStyle } from "../../../styles/Styles";
 import LoadingDots from "./LoadingDotComponent";
@@ -42,19 +43,34 @@ export default function ConversationArea({ combinedMessages, isLoading }) {
         scrollViewRef.current.scrollToEnd({ animated: true });
     }, [combinedMessages]); // Scroll to bottom when combinedMessages changes
 
+    // // handle toggle play and pause for loaded messages from server
+    // const handlePressTogglePlayPauseButton = async (audioPath) => {
+    //     // Check if the pressed audio is currently playing
+    //     if (onPlayingAudio.audioPath === audioPath) {
+    //         // Toggle the play/pause state
+    //         await togglePlayPause(audioPath); // Ensure this function handles toggling logic
+    //         setOnPlayingAudio({
+    //             ...onPlayingAudio,
+    //             isReplaying: !onPlayingAudio.isReplaying,
+    //         });
+    //     } else {
+    //         // Play the new audio and update the currentAudio state
+    //         await togglePlayPause(audioPath); // Ensure this starts playing the new audio
+    //         setOnPlayingAudio({ audioPath: audioPath, isReplaying: true });
+    //     }
+    // };
+
+    // // handle toggle play and pause for loaded messages from server
     const handlePressTogglePlayPauseButton = async (audioPath) => {
         // Check if the pressed audio is currently playing
         if (onPlayingAudio.audioPath === audioPath) {
             // Toggle the play/pause state
             await togglePlayPause(audioPath); // Ensure this function handles toggling logic
-            setOnPlayingAudio({
-                ...onPlayingAudio,
-                isReplaying: !onPlayingAudio.isReplaying,
-            });
+            setOnPlayingAudio({ audioPath: audioPath, isPlaying: false });
         } else {
             // Play the new audio and update the currentAudio state
             await togglePlayPause(audioPath); // Ensure this starts playing the new audio
-            setOnPlayingAudio({ audioPath: audioPath, isReplaying: true });
+            setOnPlayingAudio({ audioPath: audioPath, isPlaying: true });
         }
     };
 
@@ -93,6 +109,7 @@ export default function ConversationArea({ combinedMessages, isLoading }) {
                                     onPlayingAudio={onPlayingAudio}
                                     handlePressTogglePlayPauseButton={
                                         handlePressTogglePlayPauseButton
+                                        // playAudiofromAudioPath
                                     }
                                     isChosen={isChosen}
                                     toggleChosen={() =>
@@ -115,6 +132,7 @@ export default function ConversationArea({ combinedMessages, isLoading }) {
                                     onPlayingAudio={onPlayingAudio}
                                     handlePressTogglePlayPauseButton={
                                         handlePressTogglePlayPauseButton
+                                        // playAudiofromAudioPath
                                     }
                                     isChosen={isChosen}
                                     toggleChosen={() =>

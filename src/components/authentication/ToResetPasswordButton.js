@@ -2,11 +2,8 @@ import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 
-import {
-    AuthButtonStyle,
-    TextGlowingEffect,
-    fontFamilyStyle,
-} from "../../styles/Styles";
+import { AuthButtonStyle } from "../../styles/Styles";
+import { TextStyles } from "../../styles/FontStyles";
 
 export default function ToResetPasswordButton({ text }) {
     const navigation = useNavigation();
@@ -23,16 +20,7 @@ export default function ToResetPasswordButton({ text }) {
                 }}
                 style={{ ...AuthButtonStyle }}
             >
-                <Text
-                    style={{
-                        fontFamily: fontFamilyStyle,
-                        fontSize: 20,
-                        color: "white",
-                        ...TextGlowingEffect,
-                    }}
-                >
-                    {text}
-                </Text>
+                <Text style={TextStyles.AuthTextButton}>{text}</Text>
             </TouchableOpacity>
         </View>
     );

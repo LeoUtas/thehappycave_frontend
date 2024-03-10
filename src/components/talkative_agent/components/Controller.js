@@ -1,21 +1,28 @@
 import React, { useState, useEffect } from "react";
-import { View, SafeAreaView, Pressable, StatusBar, Image } from "react-native";
-import Header from "./Header";
-import useReactNativeVoice from "./hooks/useReactNativeVoice";
+import { View, Pressable, StatusBar, Image } from "react-native";
 import { Audio } from "expo-av";
-import * as ExpoFileSystem from "expo-file-system"; // not use for now
 import { FontAwesome5 } from "@expo/vector-icons";
 import LinearGradient from "react-native-linear-gradient";
+import uuid from "react-native-uuid";
+import { getAuth } from "firebase/auth";
 
-import fetchAudio from "./utils/fetchAudio";
+import useReactNativeVoice from "./hooks/useReactNativeVoice";
+import useExpoAV from "./hooks/useExpoAV";
+import fetchAudioFromServer from "./utils/fetchAudioFromServer";
+import fetchTextFromServer from "./utils/fetchTextFromServer";
 import handleResetConversation from "./utils/resetConversation";
 import saveAudioToFile from "./utils/saveAudioToFile";
 import playAudiofromAudioPath from "./utils/playAudiofromAudioPath";
 import combineArrays from "./utils/combineArrays";
-import HomeButton from "./HomeButton";
+import HomeButton from "../../authentication/HomeButton";
 import ResetButton from "./ResetButton";
 import ConversationArea from "./ConversationArea";
-import BackgroundImage from "../../../../assets/BackgroundImage.png";
+import BackgroundImage from "../../../../assets/talkative_agent/TalkativeAgentBackgroundImage.png";
+import { PromptTextWhenWrong } from "../../../logistics/Logistics";
+import {
+    orgMicroButtonGradientStyle,
+    onHoldMicroButtonGradientStyle,
+} from "../../../styles/Styles";
 
 // set some configurations for the audio
 Audio.setAudioModeAsync({
@@ -24,47 +31,73 @@ Audio.setAudioModeAsync({
     playsInSilentModeIOS: true, // very important
     shouldDuckAndroid: true,
     playThroughEarpieceAndroid: false,
+    // defaultToSpeaker: true, // This is crucial for 'playAndRecord'
 });
 
-const orgMicroButtonGradient = ["#0b3866", "#4b749f"];
-const onHoldMicroButtonGradient = ["#4b749f", "#243748"];
+const orgMicroButtonGradient = orgMicroButtonGradientStyle;
+const onHoldMicroButtonGradient = onHoldMicroButtonGradientStyle;
 
 export default function Controller() {
+    // arrangement for the onRecording state before handle recording, STT, etc.
     const [onRecording, setOnRecording] = useState(false);
-    const [audioResponse, setAudioResponse] = useState([]);
-    const [textRequest, setTextRequest] = useState([]);
+
+    // arrangement for making the loading dots (i.e., while loading ... )
     const [isLoading, setIsLoading] = useState(false);
 
+    // arrangement for using user UID
+    const [userUID, setUserUID] = useState(null);
+
+    // arrangement for making combinedMessages (i.e., combining user and ai messages)
+    const [userMessages, setUserMessages] = useState([]);
+    const [aiMessages, setAiMessages] = useState([]);
+
+    // arrangement for using react-native-voice custom hook
     const { state, startSpeechToText, stopSpeechToText, destroySpeechToText } =
         useReactNativeVoice();
 
-    // const [urlPath, setUrlPath] = useState("");
+    // arrangement for using expo-av custom hook
+    const { recording, audioUri, startRecording, stopRecording } = useExpoAV();
 
-    // const ListAudioFiles = async () => {
-    //     try {
-    //         const result = await ExpoFileSystem.readAsStringAsync(
-    //             ExpoFileSystem.documentDirectory
-    //         );
-    //         if (result.length > 0) {
-    //             const fileName = result[0];
-    //             const path = ExpoFileSystem.documentDirectory + fileName;
-    //             setUrlPath(path);
-    //         }
-    //     } catch (error) {
-    //         console.log(error.message);
-    //     }
-    // };
+    // arrangement for using userUID
+    useEffect(() => {
+        const auth = getAuth();
+        setUserUID(auth.currentUser.uid);
+    }, []);
+
+    useEffect(() => {
+        const reset = async () => {
+            await handleResetConversation();
+        };
+        reset();
+    }, []);
 
     const handleController = async () => {
+        // if (!state.results[0]) {
+        //     return;
+        // }
+
+        let text = "";
+
         if (!state.results[0]) {
-            return;
+            // Immediately stop recording and cleanup if there are no speech results
+            if (recording) {
+                await stopRecording(); // Ensure the recording is stopped if it was started.
+
+                text = PromptTextWhenWrong;
+            }
+
+            // return; // Just exit do nothing
+        } else {
+            text = state.results[0];
         }
+
         try {
             setOnRecording(true);
             setIsLoading(true);
 
-            // fetch Audio blob from the server
-            const audioBlob = await fetchAudio(state.results[0]);
+            // fetch audio blob response from the server
+            // const audioBlob = await fetchAudioFromServer(state.results[0]);
+            const audioBlob = await fetchAudioFromServer(text);
 
             const fileReader = new FileReader();
             fileReader.onload = async (event) => {
@@ -75,82 +108,100 @@ export default function Controller() {
                     // save the audioData
                     const audioPath = await saveAudioToFile(audioData);
 
-                    // play the audioData
-                    // setUrlPath(audioPath);
-                    await playAudiofromAudioPath(audioPath);
-
                     setIsLoading(false);
 
-                    setTextRequest((currentTextRequest) => [
-                        ...currentTextRequest,
-                        {
-                            text: state.results[0],
-                            source: "user",
-                            time: new Date().toISOString(),
-                        },
-                    ]);
+                    // play the audioData
+                    await playAudiofromAudioPath(audioPath);
 
-                    setAudioResponse((currentAudioResponse) => [
-                        ...currentAudioResponse,
-                        {
-                            audioPath: audioPath,
-                            source: "openai",
-                            time: new Date().toISOString(),
-                        },
-                    ]);
+                    if (text === PromptTextWhenWrong) {
+                        console.log("nothing for speech to text");
+                    } else {
+                        const audioUri = await stopRecording();
 
-                    // destroy the SpeechToText engine
-                    destroySpeechToText();
-                    setOnRecording(false);
+                        // fetch text response from the server
+                        const { text: openai_text } =
+                            await fetchTextFromServer();
+
+                        const date = new Date().toISOString().split("T")[0];
+                        const messageID = uuid.v4();
+
+                        setUserMessages((currentMessage) => [
+                            ...currentMessage,
+                            {
+                                audioPath: audioUri,
+                                ID: messageID,
+                                source: "user",
+                                date: date,
+                                text: state.results[0],
+                                userUID: userUID,
+                            },
+                        ]);
+
+                        setAiMessages((currentMessage) => [
+                            ...currentMessage,
+                            {
+                                audioPath: audioPath,
+                                ID: messageID,
+                                source: "openai",
+                                date: date,
+                                text: openai_text,
+                                userUID: userUID,
+                            },
+                        ]);
+
+                        // destroy the SpeechToText engine
+                        destroySpeechToText();
+                        setOnRecording(false);
+                    }
                 }
             };
 
             fileReader.readAsDataURL(audioBlob);
         } catch (error) {
-            console.log(error.message);
+            console.error("error at handleController: ", error.message);
         }
     };
 
-    const combinedArray = combineArrays(textRequest, audioResponse);
+    const combinedMessages = combineArrays(userMessages, aiMessages);
 
     const handleResetButton = async () => {
         const response = await handleResetConversation();
         if (response && response.status === 200) {
-            setTextRequest([]);
-            setAudioResponse([]);
+            setUserMessages([]);
+            setAiMessages([]);
         } else {
-            console.log("Resetting error");
+            console.error("Resetting error");
         }
     };
 
     return (
-        <View style={{ height: "100%", width: "100%" }}>
+        <View style={{ flex: 1 }}>
             <StatusBar style="light" />
             <Image
                 source={BackgroundImage}
                 resizeMode="cover"
                 style={{ height: "100%", width: "100%", position: "absolute" }}
             />
-            <SafeAreaView style={{ flex: 1, alignItems: "center" }}>
-                <Header />
-
+            <View style={{ flex: 1, alignItems: "center" }}>
+                {/* Conversation area frame */}
                 <ConversationArea
-                    combinedArray={combinedArray}
+                    combinedMessages={combinedMessages}
                     isLoading={isLoading}
                 />
 
-                {/* Controller Buttons container */}
+                {/* Controller buttons container */}
                 <View
                     style={{
                         flexDirection: "row",
                         justifyContent: "space-around",
                         alignItems: "center",
                         position: "absolute",
-                        bottom: 50,
+                        bottom: 25,
                         width: "100%",
                         paddingHorizontal: 20,
                     }}
                 >
+                    {/* Buttons */}
                     {/* Home button */}
                     <HomeButton />
 
@@ -158,11 +209,12 @@ export default function Controller() {
                     <Pressable
                         onPressIn={() => {
                             startSpeechToText();
+                            startRecording();
                             setOnRecording(true);
                         }}
-                        onPressOut={() => {
+                        onPressOut={async () => {
                             stopSpeechToText();
-                            handleController();
+                            await handleController();
                             setOnRecording(false);
                         }}
                         style={{
@@ -201,7 +253,7 @@ export default function Controller() {
                     {/* Reset button */}
                     <ResetButton onReset={handleResetButton} />
                 </View>
-            </SafeAreaView>
+            </View>
         </View>
     );
 }

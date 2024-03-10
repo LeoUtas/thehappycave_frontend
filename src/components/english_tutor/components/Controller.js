@@ -22,15 +22,17 @@ import combineArrays from "./utils/combineArrays";
 import HomeButton from "../../authentication/HomeButton";
 import ResetButton from "./ResetButton";
 import ConversationArea from "./ConversationArea";
-import BackgroundImage from "../../../../assets/english_tutor/EnglishTutorBackgroundImage2.png";
+import BackgroundImage from "../../../../assets/english_tutor/EnglishTutorBackgroundImage.png";
+import { PromptTextWhenWrong } from "../../../logistics/Logistics";
 
 // set some configurations for the audio
 Audio.setAudioModeAsync({
     allowsRecordingIOS: false,
     staysActiveInBackground: false,
-    playsInSilentModeIOS: false, // very important
+    playsInSilentModeIOS: true, // very important
     shouldDuckAndroid: true,
     playThroughEarpieceAndroid: false,
+    // defaultToSpeaker: true, // This is crucial for 'playAndRecord'
 });
 
 const orgMicroButtonGradient = orgMicroButtonGradientStyle;
@@ -55,7 +57,7 @@ export default function Controller() {
         useReactNativeVoice();
 
     // arrangement for using expo-av custom hook
-    const { audioUri, startRecording, stopRecording } = useExpoAV();
+    const { recording, audioUri, startRecording, stopRecording } = useExpoAV();
 
     // arrangement for using userUID
     useEffect(() => {
@@ -63,16 +65,40 @@ export default function Controller() {
         setUserUID(auth.currentUser.uid);
     }, []);
 
+    useEffect(() => {
+        const reset = async () => {
+            await handleResetConversation();
+        };
+        reset();
+    }, []);
+
     const handleController = async () => {
+        // if (!state.results[0]) {
+        //     return;
+        // }
+
+        let text = "";
+
         if (!state.results[0]) {
-            return;
+            // Immediately stop recording and cleanup if there are no speech results
+            if (recording) {
+                await stopRecording(); // Ensure the recording is stopped if it was started.
+
+                text = PromptTextWhenWrong;
+            }
+
+            // return; // Just exit do nothing
+        } else {
+            text = state.results[0];
         }
+
         try {
             setOnRecording(true);
             setIsLoading(true);
 
             // fetch audio blob response from the server
-            const audioBlob = await fetchAudioFromServer(state.results[0]);
+            // const audioBlob = await fetchAudioFromServer(state.results[0]);
+            const audioBlob = await fetchAudioFromServer(text);
 
             const fileReader = new FileReader();
             fileReader.onload = async (event) => {
@@ -88,41 +114,46 @@ export default function Controller() {
                     // play the audioData
                     await playAudiofromAudioPath(audioPath);
 
-                    const audioUri = await stopRecording();
+                    if (text === PromptTextWhenWrong) {
+                        console.log("nothing for speech to text");
+                    } else {
+                        const audioUri = await stopRecording();
 
-                    // fetch text response from the server
-                    const { text: openai_text } = await fetchTextFromServer();
+                        // fetch text response from the server
+                        const { text: openai_text } =
+                            await fetchTextFromServer();
 
-                    const date = new Date().toISOString().split("T")[0];
-                    const messageID = uuid.v4();
+                        const date = new Date().toISOString().split("T")[0];
+                        const messageID = uuid.v4();
 
-                    setUserMessages((currentMessage) => [
-                        ...currentMessage,
-                        {
-                            audioPath: audioUri,
-                            ID: messageID,
-                            source: "user",
-                            date: date,
-                            text: state.results[0],
-                            userUID: userUID,
-                        },
-                    ]);
+                        setUserMessages((currentMessage) => [
+                            ...currentMessage,
+                            {
+                                audioPath: audioUri,
+                                ID: messageID,
+                                source: "user",
+                                date: date,
+                                text: state.results[0],
+                                userUID: userUID,
+                            },
+                        ]);
 
-                    setAiMessages((currentMessage) => [
-                        ...currentMessage,
-                        {
-                            audioPath: audioPath,
-                            ID: messageID,
-                            source: "openai",
-                            date: date,
-                            text: openai_text,
-                            userUID: userUID,
-                        },
-                    ]);
+                        setAiMessages((currentMessage) => [
+                            ...currentMessage,
+                            {
+                                audioPath: audioPath,
+                                ID: messageID,
+                                source: "openai",
+                                date: date,
+                                text: openai_text,
+                                userUID: userUID,
+                            },
+                        ]);
 
-                    // destroy the SpeechToText engine
-                    destroySpeechToText();
-                    setOnRecording(false);
+                        // destroy the SpeechToText engine
+                        destroySpeechToText();
+                        setOnRecording(false);
+                    }
                 }
             };
 
@@ -184,7 +215,7 @@ export default function Controller() {
                         }}
                         onPressOut={async () => {
                             stopSpeechToText();
-                            handleController();
+                            await handleController();
                             setOnRecording(false);
                         }}
                         style={{

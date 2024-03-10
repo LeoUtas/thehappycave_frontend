@@ -12,6 +12,7 @@ import EnglishTutorController from "../components/english_tutor/components/Contr
 import TalkativeAgentController from "../components/talkative_agent/components/Controller";
 import ProfileHome from "../components/authentication/userProfile/ProfileHome";
 import EnglishConversationRecords from "../components/english_tutor/components/EnglishConversationRecords";
+import TalkativeAgentConversationRecords from "../components/talkative_agent/components/TallkativeAgentConversationRecords";
 
 import useAuth from "../components/authentication/hooks/useAuth";
 import { REACT_APP_ADMIN_EMAIL } from "@env";
@@ -67,6 +68,11 @@ function AppNavigation() {
                         screenOptions={{ headerShown: false }}
                         component={EnglishConversationRecords}
                     />
+                    <Stack.Screen
+                        name="TalkativeAgentConversationRecords"
+                        screenOptions={{ headerShown: false }}
+                        component={TalkativeAgentConversationRecords}
+                    />
                 </Stack.Navigator>
             </NavigationContainer>
         );
@@ -93,6 +99,11 @@ function AppNavigation() {
                         component={EnglishTutorController}
                     />
                     <Stack.Screen
+                        name="TalkativeAgentController"
+                        screenOptions={{ headerShown: false }}
+                        component={TalkativeAgentController}
+                    />
+                    <Stack.Screen
                         name="Profile"
                         screenOptions={{ headerShown: false }}
                         component={ProfileHome}
@@ -101,6 +112,11 @@ function AppNavigation() {
                         name="EnglishConversationRecords"
                         screenOptions={{ headerShown: false }}
                         component={EnglishConversationRecords}
+                    />
+                    <Stack.Screen
+                        name="TalkativeAgentConversationRecords"
+                        screenOptions={{ headerShown: false }}
+                        component={TalkativeAgentConversationRecords}
                     />
                 </Stack.Navigator>
             </NavigationContainer>

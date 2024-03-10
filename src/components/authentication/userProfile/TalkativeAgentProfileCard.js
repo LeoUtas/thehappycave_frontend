@@ -4,11 +4,10 @@ import { useNavigation } from "@react-navigation/native";
 import LinearGradient from "react-native-linear-gradient";
 
 import {
-    TextGlowingEffect,
     ProfileDiceCardStyle,
     OpacityRateProfileDiceCardStyle,
-    fontFamilyStyle,
 } from "../../../styles/Styles";
+import { TextStyles } from "../../../styles/FontStyles";
 
 export default function TalkativeAgentProfileCard() {
     const navigation = useNavigation(); // to navigate
@@ -40,22 +39,14 @@ export default function TalkativeAgentProfileCard() {
                 >
                     <Pressable
                         onPress={() => {
-                            // navigation.navigate("EnglishConversationRecords");
-                            console.log(
-                                "Memories with Mr. Goodalicious pressed"
+                            navigation.navigate(
+                                "TalkativeAgentConversationRecords"
                             );
                         }}
+                        style={{ paddingHorizontal: 5, paddingVertical: 35 }}
                     >
-                        <Text
-                            style={{
-                                color: "white",
-                                fontFamily: fontFamilyStyle,
-                                textAlign: "center",
-                                padding: 5,
-                                ...TextGlowingEffect,
-                            }}
-                        >
-                            Memories with Mr. Goofalicious
+                        <Text style={TextStyles.ServiceSubtitle}>
+                            Records with Mr. Guffawlius
                         </Text>
                     </Pressable>
                 </View>

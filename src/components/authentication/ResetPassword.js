@@ -20,9 +20,8 @@ import {
     AuthFormFormat,
     AuthButtonStyle,
     TextGlowingEffect,
-    AuthTitleStyle,
-    fontFamilyStyle,
 } from "../../styles/Styles";
+import { TextStyles } from "../../styles/FontStyles";
 import HeaderPanel from "../../screens/HeaderPanel";
 import ToSigninButton from "./ToSigninButton";
 
@@ -60,10 +59,8 @@ export default function ResetPassword() {
 
             <View style={{ alignItems: "center", marginBottom: hp(35) }}>
                 {/* Reset Title */}
-                <View style={{ marginBottom: 30 }}>
-                    <Text style={{ ...AuthTitleStyle, ...TextGlowingEffect }}>
-                        Reset
-                    </Text>
+                <View style={{ marginTop: 25, marginBottom: 15 }}>
+                    <Text style={TextStyles.AuthTitle}>Reset</Text>
                 </View>
 
                 {/* Email */}
@@ -85,12 +82,10 @@ export default function ResetPassword() {
                         }}
                     >
                         <Text
-                            style={{
-                                fontFamily: fontFamilyStyle,
-                                fontSize: 20,
-                                color: "white",
-                                ...TextGlowingEffect,
-                            }}
+                            style={[
+                                TextStyles.AuthTextButton,
+                                { ...TextGlowingEffect },
+                            ]}
                         >
                             tap to reset
                         </Text>
@@ -98,14 +93,7 @@ export default function ResetPassword() {
                 </View>
 
                 <View style={{ marginBottom: 10 }}>
-                    <Text
-                        style={{
-                            fontFamily: fontFamilyStyle,
-                            fontSize: 16,
-                            color: "white",
-                            ...TextGlowingEffect,
-                        }}
-                    >
+                    <Text style={[TextStyles.AuthTextButton, { fontSize: 18 }]}>
                         or
                     </Text>
                 </View>

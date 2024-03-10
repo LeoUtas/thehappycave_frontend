@@ -57,5 +57,6 @@ export default function useExpoAV() {
         startRecording,
         stopRecording,
         permissionResponse,
+        requestPermission,
     };
 }

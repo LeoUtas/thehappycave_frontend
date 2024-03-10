@@ -1,19 +1,37 @@
-import { View, Text, ScrollView, Pressable } from "react-native";
+import { View, ScrollView } from "react-native";
 import React, { useState, useEffect, useRef } from "react";
-import {
-    widthPercentageToDP as wp,
-    heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
-import { FontAwesome5 } from "@expo/vector-icons";
-import LinearGradient from "react-native-linear-gradient";
 import { getAuth } from "firebase/auth";
 
+import togglePlayPause from "./utils/togglePlayPause";
+import toggleChosenMessageID from "./utils/toggleChosenMessageID";
 import playAudiofromAudioPath from "./utils/playAudiofromAudioPath";
-import { TextGlowingEffect, fontFamilyStyle } from "../../../styles/Styles";
-// import LoadingDots from "./LoadingDotComponent";
+import fetchMessagesToServer from "./utils/fetchMessagesToServer";
+import { ConversationAreaFrameStyle } from "../../../styles/Styles";
+import LoadingDots from "./LoadingDotComponent";
+import SpeechBubble from "./SpeechBubble";
+import ConversationAreaHeader from "./ConversationAreaHeader";
 
-export default function ConversationArea({ combinedArray, isLoading }) {
+export default function ConversationArea({ combinedMessages, isLoading }) {
     const [userName, setUserName] = useState("");
+    const [onPlayingAudio, setOnPlayingAudio] = useState({
+        audioPath: null,
+        isReplaying: false,
+    });
+
+    // Arrange chosenMessagesID and chosenMessages states
+    const [chosenMessagesID, setChosenMessagesID] = useState([]);
+    const [chosenMessages, setChosenMessages] = useState([]);
+
+    // Update the chosenMessages according to chosenMessagesID
+    useEffect(() => {
+        // Filter combinedMessages for messages whose ID is in chosenMessagesID
+        const filteredMessages = combinedMessages.filter((message) =>
+            chosenMessagesID.includes(message.ID)
+        );
+
+        setChosenMessages(filteredMessages);
+    }, [chosenMessagesID, combinedMessages]);
+
     const scrollViewRef = useRef(); // Reference to the ScrollView
 
     useEffect(() => {
@@ -23,55 +41,53 @@ export default function ConversationArea({ combinedArray, isLoading }) {
 
     useEffect(() => {
         scrollViewRef.current.scrollToEnd({ animated: true });
-    }, [combinedArray]); // Scroll to bottom when combinedArray changes
+    }, [combinedMessages]); // Scroll to bottom when combinedMessages changes
+
+    // // handle toggle play and pause for loaded messages from server
+    // const handlePressTogglePlayPauseButton = async (audioPath) => {
+    //     // Check if the pressed audio is currently playing
+    //     if (onPlayingAudio.audioPath === audioPath) {
+    //         // Toggle the play/pause state
+    //         await togglePlayPause(audioPath); // Ensure this function handles toggling logic
+    //         setOnPlayingAudio({
+    //             ...onPlayingAudio,
+    //             isReplaying: !onPlayingAudio.isReplaying,
+    //         });
+    //     } else {
+    //         // Play the new audio and update the currentAudio state
+    //         await togglePlayPause(audioPath); // Ensure this starts playing the new audio
+    //         setOnPlayingAudio({ audioPath: audioPath, isReplaying: true });
+    //     }
+    // };
+
+    // // handle toggle play and pause for loaded messages from server
+    const handlePressTogglePlayPauseButton = async (audioPath) => {
+        // Check if the pressed audio is currently playing
+        if (onPlayingAudio.audioPath === audioPath) {
+            // Toggle the play/pause state
+            await togglePlayPause(audioPath); // Ensure this function handles toggling logic
+            setOnPlayingAudio({ audioPath: audioPath, isPlaying: false });
+        } else {
+            // Play the new audio and update the currentAudio state
+            await togglePlayPause(audioPath); // Ensure this starts playing the new audio
+            setOnPlayingAudio({ audioPath: audioPath, isPlaying: true });
+        }
+    };
 
     return (
         <View>
-            {/* Title */}
-            <View
-                style={{
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    paddingHorizontal: wp(15),
-                    width: "100%",
-                    paddingTop: 5,
-                }}
-            >
-                <Text
-                    style={{
-                        fontFamily: fontFamilyStyle,
-                        fontSize: 14,
-                        color: "white",
-                        ...TextGlowingEffect,
-                    }}
-                >
-                    {userName}
-                </Text>
-                <Text
-                    style={{
-                        fontFamily: fontFamilyStyle,
-                        fontSize: 14,
-                        color: "white",
-                        ...TextGlowingEffect,
-                    }}
-                >
-                    Mr. Goofalicious
-                </Text>
+            {/* Conversation area header */}
+            <View style={{ marginTop: 50, paddingRight: 10 }}>
+                <ConversationAreaHeader
+                    chosenMessages={chosenMessages}
+                    fetchMessagesToServer={fetchMessagesToServer}
+                />
             </View>
 
-            {/* Conversation frame */}
             <View
+                //  Conversation area frame
                 style={{
-                    marginTop: 5,
-                    paddingBottom: 30,
-                    padding: 5,
-                    height: hp("60%"),
-                    width: wp("90%"),
-                    alignSelf: "center",
-                    borderWidth: 2,
-                    borderColor: "#557c93",
-                    borderRadius: 35,
-                    overflow: "hidden",
+                    ...ConversationAreaFrameStyle,
                 }}
             >
                 <ScrollView
@@ -79,86 +95,59 @@ export default function ConversationArea({ combinedArray, isLoading }) {
                     bounces={false}
                     showsVerticalScrollIndicator={false}
                 >
-                    {combinedArray.map((item, index) => {
+                    {combinedMessages.map((item, index) => {
+                        const isChosen = chosenMessagesID.includes(item.ID);
+
                         if (item.source === "user") {
                             return (
-                                <View
+                                <SpeechBubble
                                     key={index}
-                                    style={{
-                                        backgroundColor: "#b2e5f8",
-                                        padding: 10,
-                                        marginTop: 10,
-                                        marginBottom: 10,
-                                        borderTopLeftRadius: 0,
-                                        borderTopRightRadius: 20,
-                                        borderBottomRightRadius: 20,
-                                        borderBottomLeftRadius: 25,
-                                        alignSelf: "flex-start",
-                                    }}
-                                >
-                                    <Text
-                                        style={{
-                                            paddingHorizontal: 10,
-                                            fontFamily: fontFamilyStyle,
-                                        }}
-                                    >
-                                        {item.text}
-                                    </Text>
-                                </View>
+                                    ID={item.ID}
+                                    source={userName}
+                                    audioPath={item.audioPath}
+                                    text={item.text}
+                                    onPlayingAudio={onPlayingAudio}
+                                    handlePressTogglePlayPauseButton={
+                                        handlePressTogglePlayPauseButton
+                                        // playAudiofromAudioPath
+                                    }
+                                    isChosen={isChosen}
+                                    toggleChosen={() =>
+                                        toggleChosenMessageID(
+                                            item.ID,
+                                            chosenMessagesID,
+                                            setChosenMessagesID
+                                        )
+                                    }
+                                />
                             );
                         } else if (item.source === "openai") {
                             return (
-                                <LinearGradient
+                                <SpeechBubble
                                     key={index}
-                                    start={{ x: 0, y: 0 }}
-                                    end={{ x: 1, y: 0 }}
-                                    colors={["#53dbf2", "#c5aef2", "#8578ea"]}
-                                    style={{
-                                        padding: 10,
-                                        borderTopLeftRadius: 20,
-                                        borderTopRightRadius: 0,
-                                        borderBottomRightRadius: 25,
-                                        borderBottomLeftRadius: 20,
-                                        alignSelf: "flex-end",
-                                    }}
-                                >
-                                    <Pressable
-                                        onPress={() =>
-                                            playAudiofromAudioPath(
-                                                item.audioPath
-                                            )
-                                        }
-                                        style={{
-                                            flexDirection: "row",
-                                            alignItems: "center",
-                                            paddingRight: 10,
-                                            paddingLeft: 5,
-                                        }}
-                                    >
-                                        <FontAwesome5
-                                            name="play"
-                                            size={14}
-                                            color="#474ed7"
-                                            style={{ marginRight: 10 }}
-                                        />
-                                        <Text
-                                            style={{
-                                                color: "white",
-                                                fontFamily: fontFamilyStyle,
-                                            }}
-                                        >
-                                            openai response
-                                        </Text>
-                                    </Pressable>
-                                </LinearGradient>
+                                    ID={item.ID}
+                                    source={"openai"}
+                                    text={item.text}
+                                    audioPath={item.audioPath}
+                                    onPlayingAudio={onPlayingAudio}
+                                    handlePressTogglePlayPauseButton={
+                                        handlePressTogglePlayPauseButton
+                                        // playAudiofromAudioPath
+                                    }
+                                    isChosen={isChosen}
+                                    toggleChosen={() =>
+                                        toggleChosenMessageID(
+                                            item.ID,
+                                            chosenMessagesID,
+                                            setChosenMessagesID
+                                        )
+                                    }
+                                />
                             );
                         }
                     })}
                     {isLoading && (
-                        <View style={{ paddingVertical: 50 }}>
-                            <Text>Loading ... </Text>
-                            {/* <LoadingDots /> */}
-                        </View>
+                        <LoadingDots dots={4} size={15} bounceHeight={30} />
                     )}
                 </ScrollView>
             </View>

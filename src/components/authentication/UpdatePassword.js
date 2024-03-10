@@ -21,9 +21,8 @@ import {
     AuthFormFormat,
     AuthButtonStyle,
     TextGlowingEffect,
-    AuthTitleStyle,
-    fontFamilyStyle,
 } from "../../styles/Styles";
+import { TextStyles } from "../../styles/FontStyles";
 import HeaderPanel from "../../screens/HeaderPanel";
 import HelloUserCard from "./HelloUserCard";
 
@@ -72,9 +71,7 @@ export default function UpdatePassword() {
             <View style={{ alignItems: "center" }}>
                 {/* Update password title */}
                 <View style={{ marginBottom: 20 }}>
-                    <Text style={{ ...AuthTitleStyle, ...TextGlowingEffect }}>
-                        Update password
-                    </Text>
+                    <Text style={TextStyles.AuthTitle}>Update password</Text>
                 </View>
 
                 {/* Password Input */}
@@ -111,12 +108,10 @@ export default function UpdatePassword() {
                     }}
                 >
                     <Text
-                        style={{
-                            fontFamily: fontFamilyStyle,
-                            fontSize: 20,
-                            color: "white",
-                            ...TextGlowingEffect,
-                        }}
+                        style={[
+                            TextStyles.AuthTextButton,
+                            { ...TextGlowingEffect },
+                        ]}
                     >
                         tap to update
                     </Text>

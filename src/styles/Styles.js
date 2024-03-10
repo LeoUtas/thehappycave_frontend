@@ -3,7 +3,8 @@ import {
     heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 
-export const fontFamilyStyle = "Fuzzy Bubbles Regular";
+export const fontFamilyRegularStyle = "Fuzzy Bubbles Regular";
+export const fontFamilyBoldStyle = "Fuzzy Bubbles Bold";
 
 export const TextGlowingEffect = {
     textShadowColor: "rgba(255, 255, 255, 0.85)",
@@ -29,19 +30,12 @@ export const AuthButton0Style = {
     justifyContent: "center",
 };
 
-export const AuthTitleStyle = {
-    fontFamily: fontFamilyStyle,
-    fontSize: 26,
-    color: "white",
-    textAlign: "center",
-};
-
 // AuthButton1Style is for exit, signup, update password in the common room
 export const AuthButton1Style = { width: 110, height: 50, borderRadius: 30 };
 
 export const ProfileDiceCardStyle = {
-    height: hp("12%"),
-    width: hp("12%"),
+    height: hp("14%"),
+    width: hp("14%"),
     alignSelf: "center",
     borderWidth: 2,
     borderRadius: 20,
@@ -57,19 +51,6 @@ export const ServiceCardLayoutStyle = {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-start",
-};
-
-export const ServiceTitleStyle = {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "white",
-    fontFamily: fontFamilyStyle,
-};
-
-export const ServiceSubTitleStyle = {
-    fontSize: 14,
-    color: "white",
-    fontFamily: fontFamilyStyle,
 };
 
 export const ServiceImageStyle = {
@@ -141,10 +122,10 @@ export const AilinearGradientColorStyle = ["#53dbf2", "#c5aef2", "#8578ea"];
 export const UserlinearGradientColorStyle = ["#f6f6f6", "#05c9f9", "#268ab2"];
 
 export const ConversationAreaFrameForRecordsStyle = {
-    marginTop: 20,
+    marginTop: 15,
     paddingBottom: 10,
     padding: 5,
-    height: hp("68%"),
+    height: hp("66%"),
     width: wp("94%"),
     alignSelf: "center",
     borderWidth: 2,

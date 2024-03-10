@@ -14,13 +14,8 @@ import LinearGradient from "react-native-linear-gradient";
 import HeaderPanel from "../../screens/HeaderPanel";
 import ToResetPasswordButton from "./ToResetPasswordButton";
 
-import {
-    AuthFormFormat,
-    AuthButtonStyle,
-    TextGlowingEffect,
-    AuthTitleStyle,
-    fontFamilyStyle,
-} from "../../styles/Styles";
+import { AuthFormFormat, AuthButtonStyle } from "../../styles/Styles";
+import { TextStyles } from "../../styles/FontStyles";
 
 export default function Signin() {
     const [email, setEmail] = useState(null);
@@ -66,9 +61,7 @@ export default function Signin() {
 
             {/* Sign In Text */}
             <View style={{ marginTop: hp(8), marginBottom: 20 }}>
-                <Text style={{ ...AuthTitleStyle, ...TextGlowingEffect }}>
-                    Sign in
-                </Text>
+                <Text style={TextStyles.AuthTitle}>Sign in</Text>
             </View>
 
             {/* Email Input */}
@@ -99,16 +92,7 @@ export default function Signin() {
                 onPress={handleSignin}
                 style={{ ...AuthButtonStyle, marginTop: 10 }}
             >
-                <Text
-                    style={{
-                        fontFamily: fontFamilyStyle,
-                        fontSize: 20,
-                        color: "white",
-                        ...TextGlowingEffect,
-                    }}
-                >
-                    tap to sign in
-                </Text>
+                <Text style={TextStyles.AuthTextButton}>tap to sign in</Text>
             </TouchableOpacity>
 
             <View
@@ -117,14 +101,7 @@ export default function Signin() {
                     alignItems: "center",
                 }}
             >
-                <Text
-                    style={{
-                        fontFamily: fontFamilyStyle,
-                        fontSize: 16,
-                        color: "white",
-                        ...TextGlowingEffect,
-                    }}
-                >
+                <Text style={[TextStyles.AuthTextButton, { fontSize: 18 }]}>
                     or
                 </Text>
             </View>

@@ -21,11 +21,10 @@ import {
     AuthFormFormat,
     AuthButtonStyle,
     TextGlowingEffect,
-    AuthTitleStyle,
-    fontFamilyStyle,
 } from "../../styles/Styles";
 import HeaderPanel from "../../screens/HeaderPanel";
 import HelloUserCard from "./HelloUserCard";
+import { TextStyles } from "../../styles/FontStyles";
 import {
     REACT_APP_THEHAPPYCAVE_AUTH_ENDPOINT_DEV,
     REACT_APP_THEHAPPYCAVE_AUTH_ENDPOINT_PRODUCTION,
@@ -100,9 +99,7 @@ export default function SignupScreen() {
             <View style={{ alignItems: "center", marginBottom: hp(20) }}>
                 {/* Sign Up Title */}
                 <View style={{ marginBottom: 20 }}>
-                    <Text style={{ ...AuthTitleStyle, ...TextGlowingEffect }}>
-                        Sign up
-                    </Text>
+                    <Text style={TextStyles.AuthTitle}>Sign up</Text>
                 </View>
 
                 {/* Name Input */}
@@ -157,12 +154,10 @@ export default function SignupScreen() {
                     style={{ ...AuthButtonStyle }}
                 >
                     <Text
-                        style={{
-                            fontFamily: fontFamilyStyle,
-                            fontSize: 20,
-                            color: "white",
-                            ...TextGlowingEffect,
-                        }}
+                        style={[
+                            TextStyles.AuthTextButton,
+                            { ...TextGlowingEffect },
+                        ]}
                     >
                         tap to sign up
                     </Text>

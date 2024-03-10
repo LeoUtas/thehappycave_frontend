@@ -14,13 +14,13 @@ import BackgroundImage from "../../assets/homeImage.png";
 import ExitButton from "../components/authentication/ExitButton";
 import { auth } from "../../Firebase/firebase";
 import ToSignupButton from "../components/authentication/ToSignupButton";
-import { TextGlowingEffect, fontFamilyStyle } from "../styles/Styles";
+import { TextStyles } from "../styles/FontStyles";
+
 import ToUpdatePasswordButton from "../components/authentication/ToUpdatePasswordButton";
 import HelloUserCard from "../components/authentication/HelloUserCard";
 import { REACT_APP_ADMIN_EMAIL } from "@env";
 
 const ADMIN_EMAIL = REACT_APP_ADMIN_EMAIL;
-console.log(fontFamilyStyle);
 
 export default function HomeScreen() {
     const [userName, setUserName] = useState("");
@@ -65,12 +65,10 @@ export default function HomeScreen() {
                         color="white"
                     />
                     <Text
-                        style={{
-                            fontFamily: fontFamilyStyle,
-                            fontSize: 14,
-                            color: "white",
-                            paddingHorizontal: 5,
-                        }}
+                        style={[
+                            TextStyles.HelloUserText,
+                            { paddingHorizontal: 5 },
+                        ]}
                     >
                         to your room
                     </Text>
@@ -83,18 +81,7 @@ export default function HomeScreen() {
                 </View>
             </Pressable>
 
-            <Text
-                style={{
-                    fontFamily: fontFamilyStyle,
-                    fontWeight: "bold",
-                    fontSize: 36,
-                    paddingTop: hp(8),
-                    fontWeight: "bold",
-                    textAlign: "center",
-                    color: "white",
-                    ...TextGlowingEffect,
-                }}
-            >
+            <Text style={[TextStyles.HeaderPanelTitle, { paddingTop: hp(8) }]}>
                 Common room
             </Text>
 
@@ -104,8 +91,8 @@ export default function HomeScreen() {
             {/* Buttons */}
             <View
                 style={{
-                    position: "absolute", // Added for absolute positioning
-                    bottom: 25, // Distance from bottom of the screen
+                    position: "absolute",
+                    bottom: 25,
                     flexDirection: "row",
                     alignItems: "center",
                     justifyContent: "center",

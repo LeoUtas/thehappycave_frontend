@@ -3,11 +3,9 @@ import { View, Text, TouchableOpacity, Image } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
 
-import ServiceImage from "../../../assets/english_translator/MrGoofalicious.png";
-import { ServiceTitleStyle } from "../../styles/Styles";
-import { ServiceSubTitleStyle } from "../../styles/Styles";
-import { ServiceImageStyle } from "../../styles/Styles";
-import { ServiceCardLayoutStyle } from "../../styles/Styles";
+import ServiceImage from "../../../assets/talkative_agent/TalkativeAgent.png";
+import { ServiceCardLayoutStyle, ServiceImageStyle } from "../../styles/Styles";
+import { TextStyles } from "../../styles/FontStyles";
 
 export default function TalkativeAgentCard() {
     const navigation = useNavigation(); // to navigate
@@ -32,10 +30,10 @@ export default function TalkativeAgentCard() {
                         />
 
                         <View style={{ paddingLeft: 20 }}>
-                            <Text style={{ ...ServiceTitleStyle }}>
-                                Mr. Goofalicious
+                            <Text style={TextStyles.ServiceTitle}>
+                                Mr. Guffawlius
                             </Text>
-                            <Text style={{ ...ServiceSubTitleStyle }}>
+                            <Text style={TextStyles.ServiceSubtitle}>
                                 Your hilarious friend
                             </Text>
                         </View>

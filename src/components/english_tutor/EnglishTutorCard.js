@@ -4,10 +4,8 @@ import LinearGradient from "react-native-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
 
 import MsPunsAlotImage from "../../../assets/english_tutor/EnglishTutorChar1Image.png";
-import { ServiceTitleStyle } from "../../styles/Styles";
-import { ServiceSubTitleStyle } from "../../styles/Styles";
-import { ServiceImageStyle } from "../../styles/Styles";
-import { ServiceCardLayoutStyle } from "../../styles/Styles";
+import { ServiceCardLayoutStyle, ServiceImageStyle } from "../../styles/Styles";
+import { TextStyles } from "../../styles/FontStyles";
 
 export default function EnglishTutorCard() {
     const navigation = useNavigation(); // to navigate
@@ -32,10 +30,10 @@ export default function EnglishTutorCard() {
                         />
 
                         <View style={{ paddingLeft: 20 }}>
-                            <Text style={{ ...ServiceTitleStyle }}>
+                            <Text style={TextStyles.ServiceTitle}>
                                 Ms. PunsAlot
                             </Text>
-                            <Text style={{ ...ServiceSubTitleStyle }}>
+                            <Text style={TextStyles.ServiceSubtitle}>
                                 English tutor
                             </Text>
                         </View>

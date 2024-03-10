@@ -5,7 +5,7 @@ import {
     widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
 
-import { fontFamilyStyle } from "../../styles/Styles";
+import { TextStyles } from "../../styles/FontStyles";
 
 export default function HelloUserCard({ userName }) {
     return (
@@ -16,23 +16,9 @@ export default function HelloUserCard({ userName }) {
                 alignSelf: "flex-end",
             }}
         >
-            <Text
-                style={{
-                    fontFamily: fontFamilyStyle,
-                    fontSize: 14,
-                    color: "white",
-                    textAlign: "right",
-                }}
-            >
+            <Text style={TextStyles.HelloUserText}>
                 Hello{" "}
-                <Text
-                    style={{
-                        fontFamily: fontFamilyStyle,
-                        fontSize: 16,
-                        color: "white",
-                        textAlign: "right",
-                    }}
-                >
+                <Text style={[TextStyles.HelloUserText, { fontSize: 16 }]}>
                     {userName}
                 </Text>
             </Text>

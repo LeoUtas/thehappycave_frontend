@@ -4,7 +4,7 @@ import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { Entypo, AntDesign, FontAwesome } from "@expo/vector-icons";
 import { Wander } from "react-native-animated-spinkit";
 
-import HeaderImage from "../../../../assets/english_tutor/flyingBookImage.png";
+import HeaderImage from "../../../../assets/talkative_agent/FylingBookImage.png";
 import { fontFamilyRegularStyle } from "../../../styles/Styles";
 
 export default function ConversationAreaHeader({
@@ -69,7 +69,7 @@ export default function ConversationAreaHeader({
                     justifyContent: "center",
                     paddingHorizontal: 15,
                     height: 66,
-                    backgroundColor: "rgba(155, 175, 217, .6)",
+                    backgroundColor: "rgba(30, 108, 142, .8))",
                 }}
             >
                 <View style={{ flexDirection: "row", alignItems: "center" }}>

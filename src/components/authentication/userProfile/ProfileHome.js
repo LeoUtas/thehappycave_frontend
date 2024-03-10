@@ -11,7 +11,7 @@ import RandomDiceProfileCard from "./RandomDiceProfileCard";
 import BackgroundImage from "../../../../assets/profileHomeImage.png";
 import Avatar from "../../../../assets/icon.png";
 import { auth } from "../../../../Firebase/firebase";
-import { TextGlowingEffect, fontFamilyStyle } from "../../../styles/Styles";
+import { TextStyles } from "../../../styles/FontStyles";
 import HomeButton from "../HomeButton";
 import HelloUserCard from "../HelloUserCard";
 
@@ -34,7 +34,7 @@ export default function ProfileHome() {
             />
 
             <HelloUserCard userName={userName} />
-            <Image
+            {/* <Image
                 source={Avatar}
                 style={{
                     height: hp(8),
@@ -43,18 +43,15 @@ export default function ProfileHome() {
                     alignSelf: "flex-end",
                     marginRight: 40,
                 }}
-            />
+            /> */}
 
             <Text
-                style={{
-                    fontFamily: fontFamilyStyle,
-                    fontSize: 32,
-                    paddingTop: 20,
-                    fontWeight: "bold",
-                    textAlign: "center",
-                    color: "white",
-                    ...TextGlowingEffect,
-                }}
+                style={[
+                    TextStyles.HeaderPanelTitle,
+                    {
+                        paddingTop: hp(10),
+                    },
+                ]}
             >
                 {userName}'s room
             </Text>
@@ -70,15 +67,15 @@ export default function ProfileHome() {
             >
                 <View
                     style={{
-                        marginLeft: wp("30%"),
-                        marginBottom: 10,
+                        marginLeft: wp("22%"),
+                        marginBottom: 14,
                     }}
                 >
                     <EnglishtutorProfileCard />
                 </View>
                 <View
                     style={{
-                        marginRight: wp("15%"),
+                        marginRight: wp("14%"),
                     }}
                 >
                     <RandomDiceProfileCard />
@@ -86,14 +83,14 @@ export default function ProfileHome() {
 
                 <View
                     style={{
-                        marginLeft: wp("30%"),
+                        marginLeft: wp("22%"),
                     }}
                 >
                     <RandomDiceProfileCard />
                 </View>
                 <View
                     style={{
-                        marginRight: wp("15%"),
+                        marginRight: wp("14%"),
                     }}
                 >
                     <TalkativeAgentProfileCard />

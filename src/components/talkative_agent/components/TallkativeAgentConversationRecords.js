@@ -25,16 +25,16 @@ import HomeButton from "../../authentication/HomeButton";
 import LoadDataButton from "./LoadDataButton";
 import GoBackOneStepButton from "../../../navigation/GobackOneStepButton";
 import HelloUserCard from "../../authentication/HelloUserCard";
-import BackgroundImage from "../../../../assets/english_tutor/EnglishConversationRecordImage.png";
+import BackgroundImage from "../../../../assets/talkative_agent/TalkativeAgentConversationRecordImage.png";
 import {
     ConversationAreaFrameForRecordsStyle,
     AuthFormFormat,
 } from "../../../styles/Styles";
 import { TextStyles } from "../../../styles/FontStyles";
 
-const SERVICE_NAME = "EnglishTutor";
+const SERVICE_NAME = "TalkativeAgent";
 
-export default function EnglishConversationRecords() {
+export default function TalkativeAgentConversationRecords() {
     const [isLoading, setIsLoading] = useState(false);
     const [onPlayingAudio, setOnPlayingAudio] = useState({
         audioPath: null,
@@ -196,10 +196,10 @@ export default function EnglishConversationRecords() {
             <Text
                 style={[
                     TextStyles.HeaderPanelTitle,
-                    { fontSize: 32, paddingTop: 30, paddingHorizontal: 20 },
+                    { fontSize: 30, paddingTop: 30, paddingHorizontal: 20 },
                 ]}
             >
-                English Conversation Records
+                Conversation Records with Mr. Guffawlius
             </Text>
 
             <View
