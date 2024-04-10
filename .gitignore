@@ -2,7 +2,7 @@
 
 # dependencies
 node_modules/
-
+Firebase/
 ios/
 eas.json
 app.json
