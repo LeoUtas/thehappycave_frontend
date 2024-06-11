@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, Image } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
 
-import ServiceImage from "../../../assets/talkative_agent/TalkativeAgent.png";
+import ServiceImage from "../../../assets/talkative_agent/TalkativeAgent1.png";
 import { ServiceCardLayoutStyle, ServiceImageStyle } from "../../styles/Styles";
 import { TextStyles } from "../../styles/FontStyles";
 

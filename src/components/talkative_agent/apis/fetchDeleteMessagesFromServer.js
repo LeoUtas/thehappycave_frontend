@@ -1,7 +1,8 @@
 import { doc, deleteDoc } from "firebase/firestore";
-import { db } from "../../../../../Firebase/firebase";
+import { db } from "../../../../Firebase/firebase";
 import { getStorage, ref, deleteObject } from "firebase/storage";
 
+// service name is used to determine the collection name in Firestore
 const SERVICE_NAME = "TalkativeAgent";
 
 export default async function fetchDeleteMessagesFromServer(ID) {

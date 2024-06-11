@@ -1,8 +1,4 @@
-export default function toggleChosenMessageID(
-    messageID,
-    chosenMessages,
-    setChosenMessages
-) {
+export default function toggleChosenMessageID(messageID, setChosenMessages) {
     setChosenMessages((prev) => {
         const isAlreadyChosen = prev.includes(messageID);
         if (isAlreadyChosen) {

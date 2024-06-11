@@ -2,10 +2,10 @@ import { View, ScrollView } from "react-native";
 import React, { useState, useEffect, useRef } from "react";
 import { getAuth } from "firebase/auth";
 
-import togglePlayPause from "./utils/togglePlayPause";
-import toggleChosenMessageID from "./utils/toggleChosenMessageID";
-import playAudiofromAudioPath from "./utils/playAudiofromAudioPath";
-import fetchMessagesToServer from "./utils/fetchMessagesToServer";
+import togglePlayPause from "../apis/utils/togglePlayPause";
+import toggleChosenMessageID from "../apis/utils/toggleChosenMessageID";
+import playAudiofromAudioPath from "../apis/utils/playAudiofromAudioPath";
+import fetchMessagesToServer from "../apis/fetchMessagesToServer";
 import { ConversationAreaFrameStyle } from "../../../styles/Styles";
 import LoadingDots from "./LoadingDotComponent";
 import SpeechBubble from "./SpeechBubble";
@@ -98,7 +98,6 @@ export default function ConversationArea({ combinedMessages, isLoading }) {
                                     toggleChosen={() =>
                                         toggleChosenMessageID(
                                             item.ID,
-                                            chosenMessagesID,
                                             setChosenMessagesID
                                         )
                                     }
@@ -121,7 +120,6 @@ export default function ConversationArea({ combinedMessages, isLoading }) {
                                     toggleChosen={() =>
                                         toggleChosenMessageID(
                                             item.ID,
-                                            chosenMessagesID,
                                             setChosenMessagesID
                                         )
                                     }

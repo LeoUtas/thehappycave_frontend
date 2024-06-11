@@ -1,5 +1,5 @@
 import { doc, deleteDoc } from "firebase/firestore";
-import { db } from "../../../../../Firebase/firebase";
+import { db } from "../../../../Firebase/firebase";
 import { getStorage, ref, deleteObject } from "firebase/storage";
 
 const SERVICE_NAME = "EnglishTutor";

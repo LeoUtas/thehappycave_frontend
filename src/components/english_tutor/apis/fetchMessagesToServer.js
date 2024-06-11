@@ -1,16 +1,8 @@
-import { REACT_APP_ENGLISH_TUTOR_FETCH_AUDIOTEXT_TO_SERVER_ENDPOINT_PRODUCTION } from "@env";
-
-// const ENGLISH_TUTOR_FETCH_TO_SERVER_ENDPOINT =
-//     "http://localhost:8000/english_tutor/post_messages/";
-
-const ENGLISH_TUTOR_FETCH_TO_SERVER_ENDPOINT =
-    REACT_APP_ENGLISH_TUTOR_FETCH_AUDIOTEXT_TO_SERVER_ENDPOINT_PRODUCTION;
+import { REACT_APP_BASE_URL_PRODUCTION, REACT_APP_BASE_URL_DEV } from "@env";
 
 import RNFetchBlob from "rn-fetch-blob";
 
 export default async function fetchMessagesToServer(messages) {
-    ENGLISH_TUTOR_FETCH_TO_SERVER_ENDPOINT;
-
     for (const message of messages) {
         try {
             const filename = message.audioPath.split("/").pop();
@@ -33,7 +25,7 @@ export default async function fetchMessagesToServer(messages) {
 
             const serverResponse = await RNFetchBlob.fetch(
                 "POST",
-                ENGLISH_TUTOR_FETCH_TO_SERVER_ENDPOINT,
+                `${REACT_APP_BASE_URL_PRODUCTION}/english_tutor/post_messages/`,
                 {
                     "Content-Type": "multipart/form-data",
                     Accept: "application/json",

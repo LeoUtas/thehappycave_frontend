@@ -13,12 +13,12 @@ import {
 
 import useReactNativeVoice from "./hooks/useReactNativeVoice";
 import useExpoAV from "./hooks/useExpoAV";
-import fetchAudioFromServer from "./utils/fetchAudioFromServer";
-import fetchTextFromServer from "./utils/fetchTextFromServer";
-import handleResetConversation from "./utils/resetConversation";
-import saveAudioToFile from "./utils/saveAudioToFile";
-import playAudiofromAudioPath from "./utils/playAudiofromAudioPath";
-import combineArrays from "./utils/combineArrays";
+import fetchAudioFromServer from "../apis/fetchAudioFromServer";
+import fetchTextFromServer from "../apis/fetchTextFromServer";
+import handleResetConversation from "../apis/resetConversation";
+import saveAudioToFile from "../apis/utils/saveAudioToFile";
+import playAudiofromAudioPath from "../apis/utils/playAudiofromAudioPath";
+import combineArrays from "../apis/utils/combineArrays";
 import HomeButton from "../../authentication/HomeButton";
 import ResetButton from "./ResetButton";
 import ConversationArea from "./ConversationArea";

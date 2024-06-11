@@ -25,17 +25,9 @@ import {
 import HeaderPanel from "../../screens/HeaderPanel";
 import HelloUserCard from "./HelloUserCard";
 import { TextStyles } from "../../styles/FontStyles";
-import { REACT_APP_THEHAPPYCAVE_AUTH_ENDPOINT_PRODUCTION } from "@env";
-
-// const THEHAPPYCAVE_AUTH_ENDPOINT =
-//     "http://localhost:8000/thehappycave_auth/create_user/";
-
-const THEHAPPYCAVE_AUTH_ENDPOINT =
-    REACT_APP_THEHAPPYCAVE_AUTH_ENDPOINT_PRODUCTION;
+import { REACT_APP_BASE_URL_PRODUCTION, REACT_APP_BASE_URL_DEV } from "@env";
 
 export default function SignupScreen() {
-    THEHAPPYCAVE_AUTH_ENDPOINT;
-
     const navigation = useNavigation();
 
     const [userName, setUserName] = useState("");
@@ -52,24 +44,26 @@ export default function SignupScreen() {
     const handleSignup = async () => {
         if (name && email && password && password === confirmPassword) {
             try {
-                const response = await fetch(THEHAPPYCAVE_AUTH_ENDPOINT, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        name,
-                        email,
-                        password,
-                    }),
-                });
+                const response = await fetch(
+                    `${REACT_APP_BASE_URL_PRODUCTION}/thehappycave_auth/create_user/`,
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            name,
+                            email,
+                            password,
+                        }),
+                    }
+                );
 
                 if (!response.ok) {
                     throw new Error("Server responded with an error");
                 }
 
                 const data = await response.json();
-                console.error("User created:", data);
                 alert("User created successfully");
                 navigation.navigate("Home");
             } catch (error) {

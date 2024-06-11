@@ -13,7 +13,7 @@ export default function ConversationAreaHeader({
 }) {
     const [isLoading, setIsLoading] = useState(false);
 
-    const handlePress = async () => {
+    const handlePressToSaveMessages = async () => {
         setIsLoading(true);
         try {
             await fetchMessagesToServer(chosenMessages);
@@ -33,7 +33,7 @@ export default function ConversationAreaHeader({
             }}
         >
             <Pressable
-                onPress={handlePress}
+                onPress={handlePressToSaveMessages}
                 style={({ pressed }) => [
                     {
                         opacity: pressed ? 0.5 : 1,

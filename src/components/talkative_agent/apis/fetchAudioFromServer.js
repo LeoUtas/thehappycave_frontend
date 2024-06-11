@@ -1,14 +1,6 @@
-import { REACT_APP_TALKATIVE_AGENT_FETCH_AUDIO_FROM_SERVER_ENDPOINT_PRODUCTION } from "@env";
-
-// const TALKATIVE_AGENT_FETCH_AUDIO_FROM_SERVER_ENDPOINT =
-//     "http://localhost:8000/talkative_agent/get_ai_audio_response/";
-
-const TALKATIVE_AGENT_FETCH_AUDIO_FROM_SERVER_ENDPOINT =
-    REACT_APP_TALKATIVE_AGENT_FETCH_AUDIO_FROM_SERVER_ENDPOINT_PRODUCTION;
+import { REACT_APP_BASE_URL_PRODUCTION, REACT_APP_BASE_URL_DEV } from "@env";
 
 export default async function fetchAudioFromServer(recordingUri) {
-    TALKATIVE_AGENT_FETCH_AUDIO_FROM_SERVER_ENDPOINT;
-
     // Create a new FormData instance
     let formData = new FormData();
     // Append the file to the FormData instance
@@ -33,7 +25,7 @@ export default async function fetchAudioFromServer(recordingUri) {
     // Perform the fetch operation
     try {
         const response = await fetch(
-            TALKATIVE_AGENT_FETCH_AUDIO_FROM_SERVER_ENDPOINT,
+            `${REACT_APP_BASE_URL_PRODUCTION}/talkative_agent/get_ai_audio_response/`,
             fetchOptions
         );
         if (!response.ok) {

@@ -1,16 +1,15 @@
-import { REACT_APP_TALKATIVE_AGENT_FETCH_AUDIOTEXT_TO_SERVER_ENDPOINT_PRODUCTION } from "@env";
+import { REACT_APP_BASE_URL_PRODUCTION, REACT_APP_BASE_URL_DEV } from "@env";
+// import { REACT_APP_TALKATIVE_AGENT_FETCH_AUDIOTEXT_TO_SERVER_ENDPOINT_PRODUCTION } from "@env";
+
+// // const TALKATIVE_AGENT_FETCH_TO_SERVER_ENDPOINT =
+// //     "http://localhost:8000/talkative_agent/post_messages/";
 
 // const TALKATIVE_AGENT_FETCH_TO_SERVER_ENDPOINT =
-//     "http://localhost:8000/talkative_agent/post_messages/";
-
-const TALKATIVE_AGENT_FETCH_TO_SERVER_ENDPOINT =
-    REACT_APP_TALKATIVE_AGENT_FETCH_AUDIOTEXT_TO_SERVER_ENDPOINT_PRODUCTION;
+//     REACT_APP_TALKATIVE_AGENT_FETCH_AUDIOTEXT_TO_SERVER_ENDPOINT_PRODUCTION;
 
 import RNFetchBlob from "rn-fetch-blob";
 
 export default async function fetchMessagesToServer(messages) {
-    TALKATIVE_AGENT_FETCH_TO_SERVER_ENDPOINT;
-
     for (const message of messages) {
         try {
             const filename = message.audioPath.split("/").pop();
@@ -33,7 +32,7 @@ export default async function fetchMessagesToServer(messages) {
 
             const serverResponse = await RNFetchBlob.fetch(
                 "POST",
-                TALKATIVE_AGENT_FETCH_TO_SERVER_ENDPOINT,
+                `${REACT_APP_BASE_URL_PRODUCTION}/talkative_agent/post_messages/`,
                 {
                     "Content-Type": "multipart/form-data",
                     Accept: "application/json",

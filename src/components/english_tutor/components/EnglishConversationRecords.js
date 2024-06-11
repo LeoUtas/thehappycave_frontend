@@ -8,17 +8,20 @@ import {
     ScrollView,
     Pressable,
 } from "react-native";
-import { heightPercentageToDP as hp } from "react-native-responsive-screen";
+import {
+    heightPercentageToDP as hp,
+    widthPercentageToDP as wp,
+} from "react-native-responsive-screen";
 import { Wander } from "react-native-animated-spinkit";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { auth } from "../../../../Firebase/firebase";
-import fetchDataFromFirestore from "./utils/fetchDataFromFirestore";
-import fetchDeleteMessagesFromServer from "./utils/fetchDeleteMessagesFromServer";
-import combineArrays from "./utils/combineArrays";
-import togglePlayPause from "./utils/togglePlayPause";
-import toggleChosenMessageID from "./utils/toggleChosenMessageID";
-import playAudiofromAudioPath from "./utils/playAudiofromAudioPath";
+import fetchDataFromFirestore from "../apis/fetchDataFromFirestore";
+import fetchDeleteMessagesFromServer from "../apis/fetchDeleteMessagesFromServer";
+import combineArrays from "../apis/utils/combineArrays";
+import togglePlayPause from "../apis/utils/togglePlayPause";
+import toggleChosenMessageID from "../apis/utils/toggleChosenMessageID";
+import playAudiofromAudioPath from "../apis/utils/playAudiofromAudioPath";
 
 import SpeechBubbleForRecords from "./SpeechBubbleForRecords";
 import HomeButton from "../../authentication/HomeButton";
@@ -32,6 +35,7 @@ import {
 } from "../../../styles/Styles";
 import { TextStyles } from "../../../styles/FontStyles";
 
+// service name is used to determine the collection name in Firestore
 const SERVICE_NAME = "EnglishTutor";
 
 export default function EnglishConversationRecords() {
@@ -52,6 +56,14 @@ export default function EnglishConversationRecords() {
     // Arrange chosenMessageIDs and chosenMessages states
     const [chosenMessageIDs, setChosenMessageIDs] = useState([]);
     const [chosenMessages, setChosenMessages] = useState([]);
+
+    // load the messages from the server when the component mounts
+    useEffect(() => {
+        // Once the userUID is available, fetch the data
+        if (userUID) {
+            handleFetchData();
+        }
+    }, [userUID]);
 
     // Update the chosenMessages according to chosenMessageIDs
     useEffect(() => {
@@ -212,7 +224,7 @@ export default function EnglishConversationRecords() {
                     ref={scrollViewRef} // Attach the ref to the ScrollView
                     bounces={false}
                     showsVerticalScrollIndicator={false}
-                    style={{ marginBottom: 35 }}
+                    style={{ marginBottom: hp(5) }}
                 >
                     {isLoading ? (
                         <View
@@ -245,7 +257,6 @@ export default function EnglishConversationRecords() {
                                         toggleChosen={() =>
                                             toggleChosenMessageID(
                                                 item.ID,
-                                                chosenMessageIDs,
                                                 setChosenMessageIDs
                                             )
                                         }
@@ -269,7 +280,6 @@ export default function EnglishConversationRecords() {
                                         toggleChosen={() =>
                                             toggleChosenMessageID(
                                                 item.ID,
-                                                chosenMessageIDs,
                                                 setChosenMessageIDs
                                             )
                                         }
@@ -309,21 +319,16 @@ export default function EnglishConversationRecords() {
             <View
                 style={{
                     position: "absolute",
-                    bottom: 25,
+                    bottom: hp(2.5),
                     flexDirection: "row",
-                    paddingHorizontal: 20,
+                    paddingHorizontal: wp(5),
                     width: "100%",
                 }}
             >
                 <View style={{ flex: 1 }}>
                     <GoBackOneStepButton text={"Back "} />
                 </View>
-                <View style={{ marginLeft: 10, marginRight: 10 }}>
-                    <LoadDataButton
-                        handleFetchData={handleFetchData}
-                        text={"Load"}
-                    />
-                </View>
+
                 <View style={{ flex: 1, alignItems: "flex-end" }}>
                     <HomeButton />
                 </View>
